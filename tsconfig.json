@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "target": "ES5",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@dashboard/*": ["./src/modules/dashboard/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules/**/*"]
+}
