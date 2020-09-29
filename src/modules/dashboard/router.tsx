@@ -1,8 +1,11 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
+
+import Detail from '@dashboard/view/detail'
 
 export default () => (
   <>
-    <Route path="/" exact render={() => '首页'} />
+    <Redirect from="/" exact to="/dashboard/detail/1" />
+    <Route path="/dashboard/detail/:id" component={Detail} />
   </>
 )

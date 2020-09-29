@@ -1,0 +1,11 @@
+.icon-button {
+  color: #1890ff;
+  cursor: pointer;
+  font-size: 22px;
+  transition: opacity 0.25s;
+  margin-right: 8px;
+}
+
+.icon-button:hover {
+  opacity: 0.65;
+}

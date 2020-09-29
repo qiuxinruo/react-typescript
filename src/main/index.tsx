@@ -4,7 +4,11 @@ import { HashRouter } from 'react-router-dom'
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 import { render } from 'react-dom'
+
 import 'antd/dist/antd.css'
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
+import './index.css'
 
 import App from './app'
 import store from '@dashboard/store'
