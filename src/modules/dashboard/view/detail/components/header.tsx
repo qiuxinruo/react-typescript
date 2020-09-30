@@ -11,7 +11,7 @@ export default () => {
   const { name } = useSelector((state: State) => state)
 
   return (
-    <header style={{ boxShadow: '0 0 10px rgba(0,0,0,.2)' }}>
+    <header style={{ boxShadow: '10px 10px 10px black' }}>
       <div
         style={{
           display: 'flex',

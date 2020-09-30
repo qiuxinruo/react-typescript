@@ -1,3 +1,5 @@
+import immer from 'immer'
+
 import { uuid } from '@/common/utils'
 
 import { Element, Dashboard } from '@dashboard/models'
@@ -9,4 +11,9 @@ export function addElement(dashboard: Dashboard, type: Element['type']) {
 
   dashboard.elements[id] = element
   dashboard.layouts.push(laylout)
+}
+
+export function deleteElement(dashboard: Dashboard, id: string) {
+  delete dashboard.elements[id]
+  dashboard.layouts = dashboard.layouts.filter(it => it.i !== id)
 }

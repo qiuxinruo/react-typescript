@@ -1,7 +1,7 @@
 import immer from 'immer'
 
 import { Dashboard } from '@dashboard/models'
-import { addElement } from '@dashboard/service'
+import { addElement, deleteElement } from '@dashboard/service'
 
 import { Action } from './actions'
 
@@ -22,11 +22,17 @@ export default (state = initialState, action: Action): State => {
       return immer(state, draft => {
         addElement(draft, action.payload)
       })
+    case 'DELETE_ELEMENT':
+      return immer(state, draft => {
+        if (draft.selectId === action.payload) draft.selectId = undefined
+        deleteElement(draft, action.payload)
+      })
     case 'SELECT_ELEMENT':
       return { ...state, selectId: action.payload }
-    case 'LAYOUTS_CHANGE': {
+    case 'LAYOUTS_CHANGE':
       return { ...state, layouts: action.payload }
-    }
+    case 'CANVAS_MOUSE_DOWN':
+      return { ...state, selectId: undefined }
     default:
       return state
   }

@@ -13,38 +13,52 @@ export default () => {
   const { elements, layouts, selectId } = useSelector((state: State) => state)
 
   return (
-    <GridLayout
-      layouts={{ lg: layouts }}
-      breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-      rowHeight={40}
-      draggableCancel=".grid-header"
-      margin={[16, 16]}
+    <div
+      id="dashboard-canvas"
       style={{
         minHeight: 'calc(100vh - 72px)',
         background: '#ededed',
       }}
-      isBounded
-      onLayoutChange={layouts => {
-        dispatch({
-          type: 'LAYOUTS_CHANGE',
-          payload: layouts,
-        })
+      onMouseDown={(e: any) => {
+        if (
+          e.target.id === 'dashboard-canvas' ||
+          e.target.className === 'react-grid-layout'
+        ) {
+          dispatch({
+            type: 'CANVAS_MOUSE_DOWN',
+          })
+        }
       }}
     >
-      {Object.values(elements).map(data => {
-        return (
-          <div
-            key={data.id}
-            style={{
-              padding: 10,
-              background: '#fff',
-              outline: selectId === data.id ? '1px dashed #1890ff' : 'none',
-            }}
-          >
-            <Table key={data.id} data={data} />
-          </div>
-        )
-      })}
-    </GridLayout>
+      <GridLayout
+        layouts={{ lg: layouts }}
+        breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+        rowHeight={40}
+        draggableCancel=".undraggable"
+        margin={[16, 16]}
+        isBounded
+        onLayoutChange={layouts => {
+          dispatch({
+            type: 'LAYOUTS_CHANGE',
+            payload: layouts,
+          })
+        }}
+      >
+        {Object.values(elements).map(data => {
+          return (
+            <div
+              key={data.id}
+              style={{
+                padding: 10,
+                background: '#fff',
+                outline: selectId === data.id ? '1px dashed #1890ff' : 'none',
+              }}
+            >
+              <Table key={data.id} data={data} />
+            </div>
+          )
+        })}
+      </GridLayout>
+    </div>
   )
 }
