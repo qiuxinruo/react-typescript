@@ -1,29 +1,31 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Button } from 'antd'
+import { Button, Tabs } from 'antd'
 import { LeftOutlined } from '@ant-design/icons'
 
-import { State } from '@dashboard/store'
+const { TabPane } = Tabs
 
 export default () => {
-  const dispatch = useDispatch()
-  const { name } = useSelector((state: State) => state)
-
   return (
     <header className="db_header">
-      <div>
-        <Link to="/dashboards">
-          <LeftOutlined />
-        </Link>
-        <span className="db_header-title">{name}</span>
-      </div>
+      <div className="db_header-main">
+        <div>
+          <Link to="/dashboards">
+            <LeftOutlined />
+          </Link>
+          <span className="db_header-title">工作簿</span>
+        </div>
 
-      <div>
-        <Button type="primary" shape="round">
-          保存
-        </Button>
+        <div>
+          <Button type="primary" shape="round">
+            分享
+          </Button>
+        </div>
       </div>
+      <Tabs size="small" type="editable-card">
+        <TabPane key="1" tab="仪表板" />
+        <TabPane key="2" tab="仪表板2" />
+      </Tabs>
     </header>
   )
 }

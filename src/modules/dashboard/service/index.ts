@@ -6,7 +6,8 @@ import { Element, Dashboard } from '@dashboard/models'
 
 export function addElement(dashboard: Dashboard, type: Element['type']) {
   const id = uuid()
-  const laylout = { i: id, x: 0, y: 0, w: 3, h: 5, minW: 2, minH: 2 }
+  const y = Object.keys(dashboard.elements).length
+  const laylout = { i: id, x: 0, y, w: 3, h: 5, minW: 2, minH: 2 }
   const element = { id, type, name: '新的表格' }
 
   dashboard.elements[id] = element

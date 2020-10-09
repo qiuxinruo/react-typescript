@@ -5,7 +5,10 @@ import Detail from '@dashboard/view/detail'
 
 export default () => (
   <>
-    <Redirect from="/" exact to="/dashboard/detail/1" />
-    <Route path="/dashboard/detail/:id" component={Detail} />
+    <Redirect from="/" exact to="/dashboard/detail/1/1" />
+    <Route
+      path="/dashboard/detail/:workbookId/:dashboardId"
+      component={Detail}
+    />
   </>
 )
