@@ -38,18 +38,18 @@ const Container: FunctionComponent<{ data: Element }> = ({
   )
 
   return (
-    <div className="db_container">
-      <div className="db_container-header">
+    <div className="db_detail_container">
+      <div className="db_detail_container-header">
         <div>{name}</div>
         <Dropdown className="undraggable" overlay={overlay} trigger={['click']}>
-          <div className="db_container-more">
+          <div className="db_detail_container-more">
             <MoreOutlined />
           </div>
         </Dropdown>
       </div>
 
       <div
-        className="db_container-content"
+        className="db_detail_container-content"
         onMouseDown={() => {
           dispatch({
             type: 'SELECT_ELEMENT',

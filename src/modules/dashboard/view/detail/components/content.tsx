@@ -15,7 +15,7 @@ export default () => {
   return (
     <div
       id="dashboard-content"
-      className="db_content"
+      className="db_detail_content"
       onMouseDown={(e: any) => {
         if (
           e.target.id === 'dashboard-content' ||
@@ -45,7 +45,7 @@ export default () => {
           return (
             <div
               key={data.id}
-              className="db_content-wrapper"
+              className="db_detail_content-wrapper"
               style={{
                 outline: selectId === data.id ? '1px dashed #1890ff' : 'none',
               }}

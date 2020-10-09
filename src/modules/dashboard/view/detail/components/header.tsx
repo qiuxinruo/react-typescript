@@ -7,13 +7,13 @@ const { TabPane } = Tabs
 
 export default () => {
   return (
-    <header className="db_header">
-      <div className="db_header-main">
+    <header className="db_detail_header">
+      <div className="db_detail_header-main">
         <div>
           <Link to="/dashboards">
             <LeftOutlined />
           </Link>
-          <span className="db_header-title">工作簿</span>
+          <span className="db_detail_header-title">工作簿</span>
         </div>
 
         <div>

@@ -9,11 +9,11 @@ import './index.less'
 
 export default () => {
   return (
-    <div className="db_detail">
+    <div className="db_detail_index">
       <Header />
-      <div className="db_detail-body">
+      <div className="db_detail_index-body">
         <Sider />
-        <div className="db_detail-editor">
+        <div className="db_detail_index-editor">
           <Toolbar />
           <Content />
         </div>

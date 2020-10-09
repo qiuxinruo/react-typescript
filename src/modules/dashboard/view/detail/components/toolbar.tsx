@@ -13,10 +13,10 @@ export default () => {
   const dispatch = useDispatch()
 
   return (
-    <div className="db_toolbar">
+    <div className="db_detail_toolbar">
       {icons.map(it => (
         <a
-          className="db_toolbar-icon"
+          className="db_detail_toolbar-icon"
           key={it.type}
           onClick={() => {
             dispatch({ type: 'ADD_ELEMENT', payload: it.type })
