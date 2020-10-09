@@ -38,38 +38,18 @@ const Container: FunctionComponent<{ data: Element }> = ({
   )
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          fontSize: 12,
-          marginBottom: 8,
-        }}
-      >
+    <div className="db_container">
+      <div className="db_container-header">
         <div>{name}</div>
         <Dropdown className="undraggable" overlay={overlay} trigger={['click']}>
-          <div
-            style={{
-              padding: '0 4px',
-              color: 'rgba(0,0,0,.65)',
-              cursor: 'pointer',
-            }}
-          >
+          <div className="db_container-more">
             <MoreOutlined />
           </div>
         </Dropdown>
       </div>
 
       <div
-        style={{ cursor: 'move', flexGrow: 1 }}
+        className="db_container-content"
         onMouseDown={() => {
           dispatch({
             type: 'SELECT_ELEMENT',

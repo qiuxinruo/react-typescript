@@ -14,14 +14,11 @@ export default () => {
 
   return (
     <div
-      id="dashboard-canvas"
-      style={{
-        minHeight: 'calc(100vh - 72px)',
-        background: '#ededed',
-      }}
+      id="dashboard-content"
+      className="db_content"
       onMouseDown={(e: any) => {
         if (
-          e.target.id === 'dashboard-canvas' ||
+          e.target.id === 'dashboard-content' ||
           e.target.className === 'react-grid-layout'
         ) {
           dispatch({
@@ -48,9 +45,8 @@ export default () => {
           return (
             <div
               key={data.id}
+              className="db_content-wrapper"
               style={{
-                padding: 10,
-                background: '#fff',
                 outline: selectId === data.id ? '1px dashed #1890ff' : 'none',
               }}
             >

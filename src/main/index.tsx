@@ -8,7 +8,7 @@ import { render } from 'react-dom'
 import 'antd/dist/antd.css'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
-import './index.css'
+import './index.less'
 
 import App from './app'
 import store from '@dashboard/store'

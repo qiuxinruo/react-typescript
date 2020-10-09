@@ -1,0 +1,84 @@
+@import '~antd/lib/style/themes/default.less';
+
+.db {
+  &_detail {
+    &-body {
+      display: flex;
+    }
+    &-editor {
+      flex-grow: 1;
+    }
+  }
+
+  &_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 48px;
+    padding: 0 8px;
+    border-bottom: solid 1px @border-color-base;
+    &-title {
+      margin-left: 4px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+  }
+
+  &_toolbar {
+    display: flex;
+    align-items: center;
+    height: 32px;
+    padding: 0 8px;
+    &-icon {
+      padding: 0 4px;
+      font-size: 20px;
+    }
+  }
+
+  &_sider {
+    display: flex;
+    flex-shrink: 0;
+    border-right: solid 1px @border-color-base;
+    background: #fff;
+    &-left {
+      width: 200px;
+      border-right: solid 1px @border-color-base;
+    }
+    &-right {
+      width: 200px;
+    }
+  }
+
+  &_content {
+    height: calc(100vh - 80px);
+    background-color: #ededed;
+    overflow: auto;
+    &-wrapper {
+      padding: 10px;
+      background: #fff;
+      overflow: hidden;
+    }
+  }
+
+  &_container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+    &-more {
+      padding: 0 4px;
+      color: @text-color-secondary;
+      cursor: pointer;
+    }
+    &-content {
+      flex-grow: 1;
+      cursor: move;
+    }
+  }
+}
