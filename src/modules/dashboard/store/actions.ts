@@ -20,8 +20,28 @@ export interface LayoutsChangeAction {
   payload: Dashboard['layouts']
 }
 
+export interface ElementsChnageAction{
+  type: 'ELEMENTS_CHANGE',
+  payload: Dashboard['elements']
+}
+
 export interface CanvasMouseDownAction {
   type: 'CANVAS_MOUSE_DOWN'
+}
+
+export interface SaveDataSetCubeName {
+  payload: string
+  type: 'SAVE_DATASET_CUBE_NAME'
+}
+
+export interface UpdateStateAction {
+  payload: any
+  type: 'INIT_STATE'
+}
+
+export interface DataSetIdAction {
+  payload: Number,
+  type: 'DATASET_ID_CHANGE'
 }
 
 export type Action =
@@ -30,3 +50,7 @@ export type Action =
   | LayoutsChangeAction
   | SelectElementAction
   | CanvasMouseDownAction
+  | SaveDataSetCubeName
+  | UpdateStateAction
+  | ElementsChnageAction
+  | DataSetIdAction

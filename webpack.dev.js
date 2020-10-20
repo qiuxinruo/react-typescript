@@ -10,6 +10,16 @@ module.exports = merge(common, {
     disableHostCheck: true,
     progress: true,
     stats: 'errors-only',
+    host: '0.0.0.0',
+    proxy: {
+      '/': {
+        target: 'http://10.1.40.123:7799',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/': ''
+        }
+      }
+    },
   },
   plugins: [new HardSourceWebpackPlugin()],
 })

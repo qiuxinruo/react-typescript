@@ -1,6 +1,9 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { TableOutlined } from '@ant-design/icons'
+import { RouteParams } from '@dashboard/router'
+import { useParams } from 'react-router-dom'
+import { message } from 'antd'
 
 const icons = [
   {
@@ -11,7 +14,7 @@ const icons = [
 
 export default () => {
   const dispatch = useDispatch()
-
+  const { workbookId, dashboardId } = useParams<RouteParams>()
   return (
     <div className="db_detail_toolbar">
       {icons.map(it => (
@@ -19,7 +22,12 @@ export default () => {
           className="db_detail_toolbar-icon"
           key={it.type}
           onClick={() => {
-            dispatch({ type: 'ADD_ELEMENT', payload: it.type })
+            if(dashboardId!==undefined){
+              dispatch({ type: 'ADD_ELEMENT', payload: it.type })
+            }else {
+              message.warning('请先添加报表')
+              return false
+            }
           }}
         >
           <it.icon />

@@ -1,3 +1,42 @@
 body {
   overflow: hidden;
 }
+
+.db_header{
+  height: 48px;
+  line-height: 48px;
+  background: linear-gradient(180deg,#3d424a,#262a30);
+  padding: 0 16px;
+  color: #fff;
+  min-width: 1200px;
+}
+
+.db_main_nav{
+  float: left;
+  height: 100%;
+  &_content{
+      width: 200px;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      background-color: #fff;
+      box-sizing: border-box;
+      box-shadow: 0 0 4px rgba(0,0,0,.08);
+      &_list{
+          overflow: hidden;
+          overflow-y: auto;
+      }
+  }
+}
+.db_app{
+  height: 100%;
+  &_DashBoard-wrap{
+    width: auto;
+    height: 100%;
+    overflow: hidden;
+  }
+  &_DashBoard-left{
+    padding-left: 200px;
+  }
+}

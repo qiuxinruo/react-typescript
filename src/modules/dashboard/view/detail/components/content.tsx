@@ -1,7 +1,10 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Responsive, WidthProvider } from 'react-grid-layout'
+import { RouteParams } from '@dashboard/router'
+import { useParams } from 'react-router-dom'
 
+import { saveReport } from '@dashboard/service'
 import { State } from '@dashboard/store'
 
 import Table from './table'
@@ -10,8 +13,8 @@ const GridLayout = WidthProvider(Responsive)
 
 export default () => {
   const dispatch = useDispatch()
-  const { elements, layouts, selectId } = useSelector((state: State) => state)
-
+  const { workbookId, dashboardId } = useParams<RouteParams>()
+  const { elements, layouts, selectId, name } = useSelector((state: State) => state)
   return (
     <div
       id="dashboard-content"
@@ -35,10 +38,21 @@ export default () => {
         margin={[16, 16]}
         isBounded
         onLayoutChange={layouts => {
-          dispatch({
-            type: 'LAYOUTS_CHANGE',
-            payload: layouts,
-          })
+          if (name) {
+            dispatch({
+              type: 'LAYOUTS_CHANGE',
+              payload: layouts,
+            })
+            saveReport({
+              name: name,
+              workBookId: workbookId,
+              reportId: dashboardId,
+              elements: JSON.stringify(elements),
+              layouts: JSON.stringify(layouts)
+            }).then(res => {
+
+            })
+          }
         }}
       >
         {Object.values(elements).map(data => {

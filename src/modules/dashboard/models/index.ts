@@ -6,14 +6,13 @@ export interface DataSet {}
 // 元素
 export interface Element {
   id: string
-  type: 'Table'
+  type: 'Table' 
   name: string
 }
 
 //表格
 export interface Table extends Element {
   type: 'Table'
-
   // deimensions: any // 维度
   // measures: any // 度量
   // conditions: any // 过滤条件
@@ -22,9 +21,11 @@ export interface Table extends Element {
 // 仪表盘
 export interface Dashboard {
   name: string
-  dataSource: string
+  dataSet: string
   elements: {
     [key: string]: Element
   }
-  layouts: Layout[]
+  layouts: Layout[],
 }
+
+

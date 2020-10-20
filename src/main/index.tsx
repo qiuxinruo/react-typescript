@@ -13,7 +13,7 @@ import './index.less'
 import App from './app'
 import store from '@dashboard/store'
 
-const run = (App: SFC) => {
+const run = (App) => {
   render(
     <ConfigProvider locale={zhCN}>
       <Provider store={store}>
