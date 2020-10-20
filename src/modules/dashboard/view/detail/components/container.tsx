@@ -35,7 +35,7 @@ const Container: FunctionComponent<{ data: Element }> = ({
     })
     const newList = newDimensions.concat(newMeasures).sort((a,b)=>{return a.sortId-b.sortId})
     console.log(newList)
-    downloadFileByPost('/das/report/export',{
+    downloadFileByPost('/bi-gateway/das/report/export',{
       type: 'excel',
       chartId: data.id,
       dataSetId: dataSetId,

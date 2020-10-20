@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux'
 import { queryReportList, saveReport, deleteRepoet, editReport } from '@dashboard/service'
 import { deepCopy } from '@/common/utils'
 import { RouteParams } from '@dashboard/router'
+import Loading from '@dashboard/components/loading'
+
 const { TabPane } = Tabs
 
 export default (props) => {
@@ -13,12 +15,15 @@ export default (props) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const [tabList, setTabList] = useState([])
+  const [loading,setLoading] = useState(false)
   useEffect(() => {
     getReportList()
   }, [])
 
   const getReportList = () => {
+    setLoading(true)
     queryReportList({ workBookId: workbookId }).then(res => {
+      setLoading(false)
       if (res.success) {
         setTabList(res.data)
         if (res.data.length) {
@@ -30,7 +35,9 @@ export default (props) => {
   }
 
   const editReportHandle = (e, e1) => {
+    setLoading(true)
     editReport(e, e1).then(res => {
+      setLoading(false)
       if (res.success) {
         const { data } = res
         const newLayouts = data.layouts? JSON.parse(data.layouts) :[]
@@ -66,12 +73,14 @@ export default (props) => {
   }
 
   const add = () => {
+    setLoading(true)
     saveReport({
       workBookId: workbookId,
       name: '新建报表',
       elements: '',
       layouts: ''
     }).then(res => {
+      setLoading(false)
       if (res.success) {
         let newList = [{
           reportId: res.data,
@@ -143,11 +152,11 @@ export default (props) => {
             }}/>
           <span className="db_detail_header-title">工作簿</span>
         </div>
-        <div>
+        {/* <div>
           <Button type="primary" shape="round">
             分享
           </Button>
-        </div>
+        </div> */}
       </div>
       <Tabs size="small"
         type="editable-card"
@@ -160,6 +169,9 @@ export default (props) => {
           })
         }
       </Tabs>
+      {
+        loading && <Loading />
+      }
     </header>
   )
 }

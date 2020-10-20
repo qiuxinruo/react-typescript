@@ -22,57 +22,57 @@ export function deleteElement(dashboard: Dashboard, id: string) {
 }
 
 export function saveWorkbook(param:Object) {
-  return request.post('/das/workbook/save',{...param}).then(res=> res).catch(err=>err)
+  return request.post('/bi-gateway/das/workbook/save',{...param}).then(res=> res).catch(err=>err)
 }
 
 export function queryCubeList(param:Object) {
-  return request.get('/das/dataSet/queryCubeList',{...param}).then(result=> result).catch(err=>err)
+  return request.get('/bi-gateway/das/dataSet/queryCubeList',{...param}).then(result=> result).catch(err=>err)
 }
 
 export function queryList(param:Object) {
-  return request.get('/das/workbook/queryList',{...param}).then(result=> result).catch(err=>err)
+  return request.get('/bi-gateway/das/workbook/queryList',{...param}).then(result=> result).catch(err=>err)
 }
 
 export function deleteBook(param:Object) {
-  return request.post('/das/workbook/delete',{...param}).then(result=>result).catch(err=>err)
+  return request.post('/bi-gateway/das/workbook/delete',{...param}).then(result=>result).catch(err=>err)
 }
 
 export function queryDimensionMeasure(param:Object) {
-  return request.get('/das/dataSet/queryDimensionMeasure',{...param}).then(result=> result).catch(err=>err)
+  return request.get('/bi-gateway/das/dataSet/queryDimensionMeasure',{...param}).then(result=> result).catch(err=>err)
 }
 
 export function queryReportList(param:Object) {
-  return request.get('/das/report/queryList',{...param}).then(result=> result).catch(err=>err)
+  return request.get('/bi-gateway/das/report/queryList',{...param}).then(result=> result).catch(err=>err)
 }
 
 //删除报表
 export function deleteRepoet(param:Object) {
-  return request.post('/das/report/delete',{...param}).then(result=> result).catch(err=>err)
+  return request.post('/bi-gateway/das/report/delete',{...param}).then(result=> result).catch(err=>err)
 }
 
 //筛选器中字段数据值查询
 export function queryFieldValue(param:Object) {
-  return request.get('/das/report/filter/queryFieldValue',{...param}).then(result=>result).catch(err=>err)
+  return request.get('/bi-gateway/das/report/filter/queryFieldValue',{...param}).then(result=>result).catch(err=>err)
 }
 
 
 //编辑报表
 export function editReport(workbookId,dashboardId) {
-  return request.get(`das/report/${workbookId}/${dashboardId}/edit`,{}).then(result=> result).catch(err=>err)
+  return request.get(`/bi-gateway/das/report/${workbookId}/${dashboardId}/edit`,{}).then(result=> result).catch(err=>err)
 }
 
 //保存报表
 export function saveReport(param:Object) {
-  return request.post('/das/report/save',{...param}).then(result=> result).catch(err=>err)
+  return request.post('/bi-gateway/das/report/save',{...param}).then(result=> result).catch(err=>err)
 }
 
 //数据查询
 export function getReportData(param:Object) {
-  return request.post('/das/report/queryData',{...param}).then(result=>result).catch(err=>err)
+  return request.post('/bi-gateway/das/report/queryData',{...param}).then(result=>result).catch(err=>err)
 }
 //数据导出
 export function exportData(param:Object) {
-  return request.post('/das/report/export',{...param}).then(result=>result).catch(err=>err)
+  return request.post('/bi-gateway/das/report/export',{...param}).then(result=>result).catch(err=>err)
 }
 
 

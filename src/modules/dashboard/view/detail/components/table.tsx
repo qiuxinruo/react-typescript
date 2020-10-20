@@ -13,6 +13,7 @@ export default ({ data }: { data: Table }) => {
   const { dataSetId } = useSelector((state: State) => state)
   const [columns, setColumns] = useState([])
   const [dataSource, setDataSource] = useState([])
+  const [loading,setLoading] = useState(false)
   console.log(dataSetId, 'dataSetId')
   useEffect(() => {
     getList({
@@ -24,6 +25,7 @@ export default ({ data }: { data: Table }) => {
     const { dimensions = [], measures = [], filters = [] } = newData
     const newList = dimensions.concat(measures).sort((a, b) => { return a.sortId - b.sortId })
     getColums(newList)
+    setLoading(true)
     getReportData({
       chartType: 'grid',
       dataSetId: dataSetId,
@@ -40,6 +42,7 @@ export default ({ data }: { data: Table }) => {
         return item
       })
     }).then(res => {
+      setLoading(false)
       if (res.success) {
         const list = res.data.map((item, index) => {
           return {
@@ -75,7 +78,7 @@ export default ({ data }: { data: Table }) => {
 
   return (
     <Conatainer data={data}>
-      <AntTable columns={columns} dataSource={dataSource} rowKey={record => record.itemId} onChange={(pagination, filters, sorter) => handleTableChange(pagination, filters, sorter)} />
+      <AntTable loading={loading} columns={columns} dataSource={dataSource} rowKey={record => record.itemId} onChange={(pagination, filters, sorter) => handleTableChange(pagination, filters, sorter)} />
     </Conatainer>
   )
 }

@@ -13,7 +13,7 @@ module.exports = merge(common, {
     host: '0.0.0.0',
     proxy: {
       '/': {
-        target: 'http://10.1.40.123:7799',
+        target: 'http://bix.jituancaiyun.net/',
         changeOrigin: true,
         pathRewrite: {
           '^/': ''

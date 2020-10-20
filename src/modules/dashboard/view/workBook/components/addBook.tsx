@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, Form, Input, Select, message } from 'antd'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-
+import Loading from '@dashboard/components/loading'
 const { Option } = Select
 
 import { queryCubeList, saveWorkbook } from '@dashboard/service'
@@ -27,6 +27,7 @@ const formItemLayout = {
 
 const AddBook = (props) => {
     const { closeModal, itemData } = props
+    const [loading, setLoading] = useState(false)
     const [list, setList] = useState([])
     const [data, setData] = useState({
         name: '',
@@ -44,7 +45,9 @@ const AddBook = (props) => {
     }, [])
 
     const getList = () => {
+        setLoading(true)
         queryCubeList({}).then(res => {
+            setLoading(false)
             if (res.success) {
                 setList(res.data)
             }
@@ -81,7 +84,9 @@ const AddBook = (props) => {
             type: 'SAVE_DATASET_CUBE_NAME',
             payload: data.dataSetCubeName
         })
+        setLoading(true)
         saveWorkbook(param).then(res => {
+            setLoading(false)
             if (res.success) {
                 closeModal()
                 const workBookId = res.data.workBookId
@@ -118,6 +123,9 @@ const AddBook = (props) => {
                     </Form.Item>
                 </Form>
             </div>
+            {
+                loading && <Loading />
+            }
         </Modal>
     )
 }
