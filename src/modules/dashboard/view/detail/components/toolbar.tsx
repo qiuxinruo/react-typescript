@@ -23,6 +23,7 @@ export default () => {
           key={it.type}
           onClick={() => {
             if(dashboardId!==undefined){
+              message.success('表格添加成功')
               dispatch({ type: 'ADD_ELEMENT', payload: it.type })
             }else {
               message.warning('请先添加报表')

@@ -53,8 +53,8 @@ const TableRender:React.FC<childProps>=(props) => {
         },
         {
             title: '发布人',
-            key: 'owner',
-            dataIndex: 'owner'
+            key: 'ownerName',
+            dataIndex: 'ownerName'
         },
         {
             title: '操作',
@@ -77,7 +77,7 @@ const TableRender:React.FC<childProps>=(props) => {
 
     return (
         <div>
-            <Button onClick={() => setAddBook(true)} className='db_workbook_table-btn' type='primary'>新建工作簿</Button>
+            <Button onClick={() => {setAddBook(true) ;setItemData({})}} className='db_workbook_table-btn' type='primary'>新建工作簿</Button>
             <AntTable
                 columns={columns}
                 dataSource={props.data}

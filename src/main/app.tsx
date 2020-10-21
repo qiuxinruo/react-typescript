@@ -9,9 +9,11 @@ import { withRouter } from 'react-router-dom'
 const App = (props) => {
   const pathList  = props.location.pathname.split('/')
   return (<div className='db_app'>
-    <Header />
     {
-      !pathList.some(item=>item==='detail')&& < Nav />
+      !pathList.some(item=>item==='login') && <Header />
+    }
+    {
+      pathList.some(item=>item==='workbook') && < Nav />
     }
     <div className={classnames('db_app_DashBoard-wrap')}>
       <DashBoard />

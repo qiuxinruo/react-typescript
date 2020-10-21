@@ -16,8 +16,7 @@ export default ({ data }: { data: Table }) => {
   const [loading,setLoading] = useState(false)
   console.log(dataSetId, 'dataSetId')
   useEffect(() => {
-    getList({
-    })
+    getList(null)
   }, [data, dataSetId])
 
   const getList = (param) => {
@@ -51,13 +50,15 @@ export default ({ data }: { data: Table }) => {
           }
         })
         setDataSource(list)
+      }else {
+        setDataSource([])
       }
     })
   }
 
   const handleTableChange = (pagination, filters, sorter) => {
     console.log(pagination, filters, sorter)
-    let param = !sorter.order?{} : {
+    let param = !sorter.order?null : {
       columnName:sorter.field,
       orderParam: sorter.order=='ascend' ? 0 : 1
     }

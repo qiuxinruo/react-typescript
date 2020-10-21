@@ -41,6 +41,11 @@ const AddBook = (props) => {
                 name: itemData.name,
                 dataSetCubeName: itemData.dataSetCubeName,
             })
+        } else {
+            setData({
+                name: '',
+                dataSetCubeName: ''
+            })
         }
     }, [])
 

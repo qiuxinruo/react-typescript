@@ -22,6 +22,18 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+              name: './static/images/[name].[ext]',
+            },
+          },
+        ],
+      },
+      {
         test: /\.less$/,
         use: [
           'style-loader',

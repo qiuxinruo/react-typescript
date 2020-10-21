@@ -9,6 +9,6 @@
       "@dashboard/*": ["./src/modules/dashboard/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*","./images.d.ts"],
   "exclude": ["node_modules/**/*"]
 }
