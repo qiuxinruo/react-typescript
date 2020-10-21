@@ -8,6 +8,7 @@ import { withRouter } from 'react-router-dom'
 
 const App = (props) => {
   const pathList  = props.location.pathname.split('/')
+  console.log(pathList.some(item=>item==='login'))
   return (<div className='db_app'>
     {
       !pathList.some(item=>item==='login') && <Header />

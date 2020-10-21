@@ -107,7 +107,7 @@ const AddBook = (props) => {
     return (
         <Modal
             visible={true}
-            title='新建工作簿'
+            title= {itemData ? '编辑工作簿' : '新建工作簿'}
             okText='下一步'
             onCancel={() => closeModal()}
             onOk={() => submit()}

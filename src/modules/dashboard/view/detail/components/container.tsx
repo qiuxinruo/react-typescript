@@ -26,12 +26,14 @@ const Container: FunctionComponent<{ data: Element }> = ({
     let newData = deepCopy(data)
     const {dimensions=[],measures=[],filters} = newData
     const newDimensions = dimensions.map(item=> {
-      delete item.alias
-      return item
+      let newItem = {...item, columnName: item.alias}
+      delete newItem.alias
+      return newItem
     })
     const newMeasures = measures.map(item=> {
-      delete item.name
-      return item
+      let newItem = {...item, columnName: item.name}
+      delete newItem.name
+      return newItem
     })
     const newList = newDimensions.concat(newMeasures).sort((a,b)=>{return a.sortId-b.sortId})
     console.log(newList)
@@ -49,7 +51,9 @@ const Container: FunctionComponent<{ data: Element }> = ({
         delete item.sortId
         return item
       })
-    },data.name+'.xlsx')
+    },data.name+'.xlsx').then(res=> {
+      console.log(res)
+    })
   }
 
   const claseModal=(e)=> {
@@ -120,7 +124,7 @@ const Container: FunctionComponent<{ data: Element }> = ({
         <div>{data.name}</div>
         <Dropdown className="undraggable" overlay={overlay} trigger={['click']}>
           <div className="db_detail_container-more">
-            <MoreOutlined />
+            <MoreOutlined className='db_detail_container-moreIcon' />
           </div>
         </Dropdown>
       </div>

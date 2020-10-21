@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Tooltip } from 'antd'
 import { useDrag } from 'react-dnd'
 
 const DragMeaItem =  (props) => {
@@ -10,7 +10,10 @@ const DragMeaItem =  (props) => {
 
     return (
         <div ref={ drag } className='db_detail_dragitem'>
-            <span className='db_detail_dragitem-meaIden'>123</span>{dataItem.name}
+            <span className='db_detail_dragitem-meaIden'>123</span>
+            <Tooltip title={dataItem.name} placement="topLeft">
+                <span className='db_detail_dragitem-name'>{dataItem.name}</span>
+            </Tooltip>
         </div>
     )
 }

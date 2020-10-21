@@ -82,6 +82,10 @@
       color: @text-color-secondary;
       cursor: pointer;
     }
+    &-moreIcon {
+      color: #000;
+      font-size: 15px;
+    }
     &-content {
       flex-grow: 1;
       cursor: move;
@@ -130,6 +134,7 @@
         margin-bottom: 5px;
         border: none;
         height: 26px;
+        cursor: move;
     }
     &-hovBor{
       border-bottom: 2px solid #488FF9;
@@ -149,6 +154,7 @@
         line-height: 26px;
         border: none;
         height: 26px;
+        cursor: move;
         background-color: rgba(255,255,255,0);
     }
     &-icon{
@@ -181,6 +187,7 @@
         border-radius: 13px;
         height: 26px;
         margin-bottom: 5px;
+        cursor: move;
     }
     &-mspan{
         display: inline-block;
@@ -195,6 +202,7 @@
         height: 26px;
         border: none;
         background-color: rgba(255,255,255,0);
+        cursor: move;
     }
     &-mitem:hover{
         background-color: #23C172;
@@ -254,6 +262,9 @@
     &-screenClose{
       font-size: 12px;
       cursor: pointer;
+      float: right;
+      margin-right: 10px;
+      margin-top: 5px;
     }
 }
   &_dragitem{
@@ -265,11 +276,19 @@
       color: #2DC888;
       font-size: 12px;
       margin-right: 3px;
+      vertical-align: top;
     }
     &-dimIden{
       color:#FFA400 ;
       font-size: 12px;
       margin-right: 3px;
+    }
+    &-name{
+      width: 136px;
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
   &_filterItem{

@@ -97,17 +97,19 @@ function downloadFileByPost(url, params, fileName, type = '1') {
                 }
                 resolve(e)
             } else {
-                const reader = new FileReader()
-                reader.onload = function (e) {
-                    let val = deepCopy(e)
-                    const result = JSON.parse(val.target.result)
-                    message.error(result.msg || result.error)
-                    reject(result)
-                }
-                reader.onerror = function (e) {
-                    reject(e)
-                }
-                reader.readAsText(res)
+                message.error('sql执行错误')
+                // console.log(res,this)
+                // const reader = new FileReader()
+                // reader.onload = function (e) {
+                //     let val = deepCopy(e)
+                //     const result = JSON.parse(val.target.result)
+                //     message.error(result.msg || result.error)
+                //     reject(result)
+                // }
+                // reader.onerror = function (e) {
+                //     reject(e)
+                // }
+                // reader.readAsText(res)
             }
         }
         xhr.onerror = function (e) {
