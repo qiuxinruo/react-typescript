@@ -27,8 +27,12 @@ export default (props) => {
       if (res.success) {
         setTabList(res.data)
         if (res.data.length) {
-          history.push(`/dashboard/detail/${workbookId}/${res.data[0].reportId}`)
-          editReportHandle(workbookId, res.data[0].reportId)
+          let newDashboardId = dashboardId? dashboardId: res.data[0].reportId
+
+          history.push(`/dashboard/detail/${workbookId}/${newDashboardId}`)
+          editReportHandle(workbookId, newDashboardId)
+        }else {
+          add()
         }
       }
     }).catch(err => console.log(err))

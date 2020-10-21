@@ -13,7 +13,9 @@ export default ({ data }: { data: Table }) => {
   const { dataSetId } = useSelector((state: State) => state)
   const [columns, setColumns] = useState([])
   const [dataSource, setDataSource] = useState([])
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [text, setText] = useState('')
+  const [showError, setShowError] = useState(false)
   console.log(dataSetId, 'dataSetId')
   useEffect(() => {
     getList(null)
@@ -50,17 +52,20 @@ export default ({ data }: { data: Table }) => {
           }
         })
         setDataSource(list)
-      }else {
+        setShowError(false)
+      } else {
         setDataSource([])
+        setText(res.message)
+        setShowError(true)
       }
     })
   }
 
   const handleTableChange = (pagination, filters, sorter) => {
     console.log(pagination, filters, sorter)
-    let param = !sorter.order?null : {
-      columnName:sorter.field,
-      orderParam: sorter.order=='ascend' ? 0 : 1
+    let param = !sorter.order ? null : {
+      columnName: sorter.field,
+      orderParam: sorter.order == 'ascend' ? 0 : 1
     }
     getList(param)
   }
@@ -80,6 +85,9 @@ export default ({ data }: { data: Table }) => {
   return (
     <Conatainer data={data}>
       <AntTable loading={loading} columns={columns} dataSource={dataSource} rowKey={record => record.itemId} onChange={(pagination, filters, sorter) => handleTableChange(pagination, filters, sorter)} />
+      {
+        showError && <div className='db_detail_container-textWrap'><span>报错信息：</span>{text}</div>
+      }
     </Conatainer>
   )
 }

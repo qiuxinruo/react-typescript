@@ -70,6 +70,10 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    &-textWrap{
+      text-align: center;
+      color: red;
+    }
     &-header {
       display: flex;
       justify-content: space-between;
@@ -220,6 +224,8 @@
         min-height: 100px;
         border: 1px dashed #ccc;
         padding-top: 6px;
+        background: url('../../statics/images/empty.png') no-repeat center center;
+        background-size: 100% 60%;
     }
 }
   &_measures,&_screen{
@@ -240,6 +246,8 @@
       width: 160px;
       border: 1px dashed #ccc;
       height: 100%;
+      background: url('../../statics/images/empty.png') no-repeat center center;
+      background-size: 100% 32%;
     }
     &-item{
         font-size: 14px;
