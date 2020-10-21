@@ -1,5 +1,6 @@
+import { message } from 'antd'
 import axios from 'axios'
-
+import { useHistory } from 'react-router-dom'
 
 const checkSuccess = (config, data) => {
 	console.log(config,data)
@@ -10,7 +11,7 @@ const checkSuccess = (config, data) => {
 		return checkRequestSuccess({ data })
 	}
 	if (/^\/bi-gateway/.test(url)) {
-		return success === true
+		return success === true || status===200
 	}
 	return success === true
 }
@@ -32,7 +33,12 @@ axiosWindowInstance.interceptors.response.use(
 			console.log(data,'data')
             return Promise.reject(data)
         }
-    }
+    },(error)=> {
+		if(error.response.status === 401){
+			message.error('登录状态失效，请重新登录')
+			window.location.href = window.location.origin + window.location.pathname+'#/dashboard/login'
+		}
+	}
 )
 
 export default {
