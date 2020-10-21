@@ -54,7 +54,7 @@ export default () => {
 
   const onDrop = (e1, e2) => { //拖拽放下
     if(!selectId){
-      message.warning('请先选中元素')
+      message.warning('请先选中一个图表')
       return false
     }
     if (e2 == 'dataDisplay') {

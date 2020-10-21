@@ -110,7 +110,7 @@ const Container: FunctionComponent<{ data: Element }> = ({
       </Item>
       <Item key="DELETE_ELEMENT">
         <DeleteOutlined />
-        <span>删除元素</span>
+        <span>删除图表</span>
       </Item>
       <Item key="export">
         <ExportOutlined />
@@ -119,7 +119,13 @@ const Container: FunctionComponent<{ data: Element }> = ({
     </Menu>
   )
   return (
-    <div className="db_detail_container">
+    <div className="db_detail_container" onMouseDown={() => {
+      console.log(1)
+      dispatch({
+        type: 'SELECT_ELEMENT',
+        payload: id,
+      })
+    }}>
       <div className="db_detail_container-header">
         <div>{data.name}</div>
         <Dropdown className="undraggable" overlay={overlay} trigger={['click']}>
@@ -128,15 +134,8 @@ const Container: FunctionComponent<{ data: Element }> = ({
           </div>
         </Dropdown>
       </div>
-
       <div
         className="db_detail_container-content"
-        onMouseDown={() => {
-          dispatch({
-            type: 'SELECT_ELEMENT',
-            payload: id,
-          })
-        }}
       >
         {children}
       </div>

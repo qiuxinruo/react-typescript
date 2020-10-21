@@ -27,38 +27,42 @@ export default ({ data }: { data: Table }) => {
     const newList = dimensions.concat(measures).sort((a, b) => { return a.sortId - b.sortId })
     getColums(newList)
     setLoading(true)
-    getReportData({
-      chartType: 'grid',
-      dataSetId: dataSetId,
-      orderInfo: param,
-      dimensions: dimensions.map(item => {
-        delete item.sortId
-        return item
-      }),
-      measures: measures.map(item => {
-        delete item.sortId
-        return item
-      }),
-      filters: filters.map(item => {
-        return item
-      })
-    }).then(res => {
+    if (!dimensions.length && !measures.length) {
       setLoading(false)
-      if (res.success) {
-        const list = res.data.map((item, index) => {
-          return {
-            ...item,
-            itemId: index
-          }
+    } else {
+      getReportData({
+        chartType: 'grid',
+        dataSetId: dataSetId,
+        orderInfo: param,
+        dimensions: dimensions.map(item => {
+          delete item.sortId
+          return item
+        }),
+        measures: measures.map(item => {
+          delete item.sortId
+          return item
+        }),
+        filters: filters.map(item => {
+          return item
         })
-        setDataSource(list)
-        setShowError(false)
-      } else {
-        setDataSource([])
-        setText(res.message)
-        setShowError(true)
-      }
-    })
+      }).then(res => {
+        setLoading(false)
+        if (res.success) {
+          const list = res.data.map((item, index) => {
+            return {
+              ...item,
+              itemId: index
+            }
+          })
+          setDataSource(list)
+          setShowError(false)
+        } else {
+          setDataSource([])
+          setText(res.message)
+          setShowError(true)
+        }
+      })
+    }
   }
 
   const handleTableChange = (pagination, filters, sorter) => {
