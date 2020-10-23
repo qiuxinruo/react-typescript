@@ -35,7 +35,7 @@ export default () => {
         layouts={{ lg: layouts }}
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         rowHeight={40}
-        draggableCancel=".undraggable"
+        draggableCancel=".ant-table-container"
         margin={[16, 16]}
         isBounded
         onLayoutChange={layouts => {
