@@ -56,33 +56,53 @@ export default () => {
     })
   }
 
+  const getSame=(item,array)=> {
+    console.log(item)
+    let isTrue = false
+    array.forEach(element => {
+      if(element.field===item.field){
+        isTrue = true
+      }
+    });
+    return isTrue
+  }
+
   const onDrop = (e1, e2) => { //拖拽放下
     if(!selectId){
       message.warning('请先选中一个图表')
       return false
     }
     if (e2 == 'dataDisplay') {
-      let list = [{...e1.data}].concat(dataDisList)
-      const newList = list.map((item,index)=>{
-        return {
-          ...item,
-          sortId: index,
-          columnName: 'column'+index
-        }
-      })
-      saveReportHandle(newList,scrList)
-      setDataDisList(newList)
+      const isTrue = getSame(e1.data,dataDisList)
+      if(!isTrue){
+        let list = [{...e1.data}].concat(dataDisList)
+        const newList = list.map((item,index)=>{
+          return {
+            ...item,
+            sortId: index,
+            columnName: 'column'+index
+          }
+        })
+        saveReportHandle(newList,scrList)
+        setDataDisList(newList)
+      }else {
+        message.warning('请勿重复添加')
+      }
     } else {
       if(e1.data.function){
         message.warning('度量不允许拖到筛选器区域')
         return false
       }
-      let list = [e1.data]
-      const newList = deepCopy(scrList).concat(list)
-      setScrList(newList)
-      saveReportHandle(dataDisList,newList)
+      const isTrue = getSame(e1.data,scrList)
+      if(!isTrue){
+        let list = [e1.data]
+        const newList = deepCopy(scrList).concat(list)
+        setScrList(newList)
+        saveReportHandle(dataDisList,newList)
+      }else {
+        message.warning('请勿重复添加')
+      }
     }
-
   }
 
   const saveReportHandle=(list,filterList)=> { //保存数据
@@ -96,14 +116,6 @@ export default () => {
     }
     let newElements = deepCopy(elements)
     newElements[selectId] = newElement
-    dispatch({
-      type: 'INIT_STATE',
-      payload: {
-        name: name,
-        layouts: layouts,
-        elements: newElements
-      }
-    })
     saveReport({
       name: name,
       layouts: JSON.stringify(layouts),
@@ -111,8 +123,19 @@ export default () => {
       workBookId: workbookId,
       reportId:dashboardId
     }).then(res=> {
-      if(!res.success&&res.code=='A1010'){
-        history.replace('/dashboard/workbook')
+      if(res.success){
+        dispatch({
+          type: 'INIT_STATE',
+          payload: {
+            name: name,
+            layouts: layouts,
+            elements: newElements
+          }
+        })
+      }else {
+        if(res.code=='A1010'){
+          history.replace('/dashboard/workbook')
+        }
       }
     })
   }
@@ -126,7 +149,6 @@ export default () => {
     setScrList(e)
     saveReportHandle(dataDisList,e)
   }
-
 
   return (
     <DndProvider backend={HTML5Backend}>
