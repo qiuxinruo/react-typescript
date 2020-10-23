@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Responsive, WidthProvider } from 'react-grid-layout'
 import { RouteParams } from '@dashboard/router'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 
 import { saveReport } from '@dashboard/service'
 import { State } from '@dashboard/store'
@@ -15,6 +15,7 @@ export default () => {
   const dispatch = useDispatch()
   const { workbookId, dashboardId } = useParams<RouteParams>()
   const { elements, layouts, selectId, name } = useSelector((state: State) => state)
+  const history = useHistory()
   return (
     <div
       id="dashboard-content"
@@ -50,7 +51,9 @@ export default () => {
               elements: JSON.stringify(elements),
               layouts: JSON.stringify(layouts)
             }).then(res => {
-
+                if(!res.success&&res.code=='A1010'){
+                  history.replace('/dashboard/workbook')
+                }
             })
           }
         }}

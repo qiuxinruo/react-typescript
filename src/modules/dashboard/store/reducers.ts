@@ -1,14 +1,13 @@
 import immer from 'immer'
 
 import { Dashboard } from '@dashboard/models'
-import { addElement, deleteElement, saveReport } from '@dashboard/service'
+import { addElement, deleteElement } from '@dashboard/service'
 
 import { Action } from './actions'
 
 export interface State extends Dashboard {
   selectId?: string,
-  dataSetCubeName?: string,
-  dataSetId?:Number
+  workBookInfo?:Object
 }
 
 const initialState: State = {
@@ -37,12 +36,10 @@ export default (state = initialState, action: Action): State => {
       return { ...state, elements: action.payload }
     case 'CANVAS_MOUSE_DOWN':
       return { ...state, selectId: undefined }
-    case 'SAVE_DATASET_CUBE_NAME':
-      return { ...state, dataSetCubeName: action.payload }
-    case 'DATASET_ID_CHANGE':
-        return { ...state, dataSetId: action.payload }
     case 'INIT_STATE':
       return { ...state, name: action.payload.name,elements:action.payload.elements, layouts:action.payload.layouts }
+    case 'WORKBOOK_INFO_CHANGE':
+        return {...state,workBookInfo:action.payload}
     default:
       return state
   }

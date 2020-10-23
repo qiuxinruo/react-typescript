@@ -55,6 +55,8 @@ const AddBook = (props) => {
             setLoading(false)
             if (res.success) {
                 setList(res.data)
+            }else{
+                message.error(res.message)
             }
         }).catch(err => {
             console.log(err)
@@ -85,21 +87,15 @@ const AddBook = (props) => {
             return false
         }
         let param = itemData ? { id: itemData.workBookId, ...data } : { ...data };
-        dispatch({
-            type: 'SAVE_DATASET_CUBE_NAME',
-            payload: data.dataSetCubeName
-        })
         setLoading(true)
         saveWorkbook(param).then(res => {
             setLoading(false)
             if (res.success) {
                 closeModal()
                 const workBookId = res.data.workBookId
-                dispatch({
-                    type: 'DATASET_ID_CHANGE',
-                    payload: res.data.dataSetId
-                })
                 props.history.push(`/dashboard/detail/${workBookId}`)
+            }else{
+                message.error(res.message)
             }
         })
     }
@@ -107,7 +103,7 @@ const AddBook = (props) => {
     return (
         <Modal
             visible={true}
-            title= {itemData ? '编辑工作簿' : '新建工作簿'}
+            title= {itemData.name ? '编辑工作簿' : '新建工作簿'}
             okText='下一步'
             onCancel={() => closeModal()}
             onOk={() => submit()}

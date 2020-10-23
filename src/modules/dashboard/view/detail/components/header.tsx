@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Link, useParams, useHistory } from 'react-router-dom'
-import { Button, Tabs, Dropdown, Menu, message } from 'antd'
+import { Modal, Tabs, Dropdown, Menu, message } from 'antd'
 import { LeftOutlined, MoreOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { State } from '@dashboard/store'
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,7 +15,7 @@ const { Item } = Menu
 
 export default (props) => {
   const { workbookId, dashboardId } = useParams<RouteParams>()
-  const { dataSetId, elements, layouts, name } = useSelector((state: State) => state)
+  const { elements, layouts, workBookInfo } = useSelector((state: State) => state)
   const dispatch = useDispatch()
   const history = useHistory()
   const [tabList, setTabList] = useState([])
@@ -24,6 +24,7 @@ export default (props) => {
   const [tabName, setTabname] = useState('')
   const [tabKey, setTabKey] = useState('')
   const newName = '新建报表'
+
   useEffect(() => {
     getReportList()
   }, [])
@@ -34,14 +35,29 @@ export default (props) => {
     queryReportList({ workBookId: workbookId }).then(res => {
       setLoading(false)
       if (res.success) {
-        setTabList(res.data)
-        if (res.data.length) {
-          let newDashboardId = dashboardId ? dashboardId : res.data[0].reportId
-
-          history.push(`/dashboard/detail/${workbookId}/${newDashboardId}`)
+        const {reports,workBook} = res.data
+        setTabList(reports)
+        if (reports.length) {
+          let newDashboardId = dashboardId ? dashboardId : reports[0].reportId
+          history.replace(`/dashboard/detail/${workbookId}/${newDashboardId}`)
           editReportHandle(workbookId, newDashboardId)
         } else {
           add()
+        }
+        dispatch({
+          type: 'WORKBOOK_INFO_CHANGE',
+          payload: workBook
+        })
+        if(!workBook.isEdit){
+          Modal.info({
+            title: '消息通知',
+            content:(
+            <div>{workBook.currentUserName}正在编辑中···</div>
+            ),
+            onOk() {
+              history.push('/dashboard/workbook')
+            }
+          })
         }
       }
     }).catch(err => console.log(err))
@@ -63,50 +79,45 @@ export default (props) => {
             name: data.name
           }
         })
-        dispatch({
-          type: 'DATASET_ID_CHANGE',
-          payload: data.dataSetId
-        })
-        dispatch({
-          type: 'SAVE_DATASET_CUBE_NAME',
-          payload: data.dataSetCubeName
-        })
       }
     })
   }
 
   const claseModal = (e) => {
     if (e) {
-      const list = tabList.map(item => {
-        if (item.reportId == tabKey) {
-          return {
-            ...item,
-            name: e
-          }
-        } else {
-          return item
-        }
-      })
-      setTabList(list)
-      dispatch({
-        type: 'INIT_STATE',
-        payload: {
-          name: e,
-          layouts: layouts,
-          elements: elements
-        }
-      })
       saveReport({
         workBookId: workbookId,
         name: e,
-        elements: elements,
-        layouts: layouts,
+        elements: JSON.stringify(elements),
+        layouts: JSON.stringify(layouts),
         reportId: dashboardId,
-      }).then(res=> {
-        if(res.success){
-
-        }else {
-          message.warning('保存失败')
+      }).then(res => {
+        if (res.success) {
+          const list = tabList.map(item => {
+            if (item.reportId == tabKey) {
+              return {
+                ...item,
+                name: e
+              }
+            } else {
+              return item
+            }
+          })
+          setTabList(list)
+          dispatch({
+            type: 'INIT_STATE',
+            payload: {
+              name: e,
+              layouts: layouts,
+              elements: elements
+            }
+          })
+        } else {
+          if(res.code=='A1010'){
+            history.replace('/dashboard/workbook')
+          }else {
+            message.warning('保存失败')
+          }
         }
       })
     }
@@ -137,7 +148,7 @@ export default (props) => {
           name: newName
         }]
         setTabList(tabList.concat(newList))
-        history.push(`/dashboard/detail/${workbookId}/${res.data}`)
+        history.replace(`/dashboard/detail/${workbookId}/${res.data}`)
         dispatch({
           type: 'CANVAS_MOUSE_DOWN',
         })
@@ -149,6 +160,10 @@ export default (props) => {
             elements: {}
           }
         })
+      }else {
+        if(res.code=='A1010'){
+          history.replace('/dashboard/workbook')
+        }
       }
     }).catch(err => {
       console.log(err)
@@ -167,7 +182,7 @@ export default (props) => {
           str = `${workbookId}`
         }
         setTabList(newList)
-        history.push(`/dashboard/detail/${str}`)
+        history.replace(`/dashboard/detail/${str}`)
         dispatch({
           type: 'CANVAS_MOUSE_DOWN',
         })
@@ -178,7 +193,7 @@ export default (props) => {
   }
   //切换报表
   const changeTab = (key) => {
-    history.push(`/dashboard/detail/${workbookId}/${key}`)
+    history.replace(`/dashboard/detail/${workbookId}/${key}`)
     editReportHandle(workbookId, key)
     dispatch({
       type: 'CANVAS_MOUSE_DOWN',
@@ -186,7 +201,6 @@ export default (props) => {
   }
 
   const editName = (key) => {
-    console.log(key)
     setTabKey(key)
     setTabname(tabList.filter(item => item.reportId === key)[0].name)
     setEdit(true)
@@ -196,14 +210,12 @@ export default (props) => {
     return <Menu
       className="undraggable"
       onClick={({ key, domEvent }) => {
-        // domEvent.stopPropagation()
-        console.log(key, targetKey)
+        domEvent.stopPropagation()
         switch (key) {
           case 'remove': remove(targetKey);
             break;
           case 'rename': editName(targetKey);
             break
-
         }
       }}
     >
@@ -233,7 +245,7 @@ export default (props) => {
               }
             })
           }} />
-          <span className="db_detail_header-title">工作簿</span>
+          <span className="db_detail_header-title">{workBookInfo?deepCopy(workBookInfo).name : ''}</span>
         </div>
         {/* <div>
           <Button type="primary" shape="round">
@@ -248,7 +260,7 @@ export default (props) => {
         onEdit={(targetKey, action) => editTabs(targetKey, action)}>
         {
           (tabList || []).map((item, index) => {
-            return <TabPane key={item.reportId} tab={item.name} closeIcon={<div onClick={()=>changeTab(item.reportId)}><Dropdown overlay={overlay(item.reportId)} trigger={['click']}><MoreOutlined className='db_detail_header-more' /></Dropdown></div>}></TabPane>
+            return <TabPane key={item.reportId} tab={item.name} closeIcon={<div onClick={() => changeTab(item.reportId)}><Dropdown overlay={overlay(item.reportId)} trigger={['click']}><MoreOutlined className='db_detail_header-more' /></Dropdown></div>}></TabPane>
           })
         }
       </Tabs>

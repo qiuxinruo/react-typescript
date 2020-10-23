@@ -15,12 +15,15 @@ const Login = (props) => {
   const [loading, setLoading] = useState(false)
   const [form] = Form.useForm()
   const history = useHistory()
-  console.log(form)
   let countdown = 60,setTimeouts = null
 
   useEffect(() => {
-    clearTimeout(setTimeouts)
+    return componentWillUnmount
   },[])
+
+  function componentWillUnmount() {
+    clearTimeout(setTimeouts)
+  }
   /**
    * 发送验证码
    */
@@ -60,7 +63,6 @@ const Login = (props) => {
   const onFinish = values => {
     const mobile = form.getFieldValue('mobile')
     const captcha = form.getFieldValue('captcha')
-    console.log('Received values of form: ', values);
     login({
       mobile:mobile,
       captcha:captcha

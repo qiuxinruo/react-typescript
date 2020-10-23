@@ -101,7 +101,6 @@ const DataDisplay: React.FC<chilProps> = (props) => {
             onDrop && onDrop(item, 'dataDisplay')
         },
         hover(item, monitor) {
-           console.log(isOver)
         }
     })
 

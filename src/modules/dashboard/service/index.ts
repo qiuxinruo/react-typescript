@@ -17,6 +17,7 @@ export function addElement(dashboard: Dashboard, type: Element['type']) {
 }
 
 let api = '/bi-gateway'
+// let api = ''
 
 export function deleteElement(dashboard: Dashboard, id: string) {
   delete dashboard.elements[id]
@@ -85,6 +86,12 @@ export function sendCaptcha(param) {
 //登录
 export function login(param) {
   return request.get(`${api}/ms-mgr/login`,{...param}).then(result=> result).catch(err=>err)
+}
+
+
+//释放工作簿锁
+export function alive(param) {
+  return request.post(`${api}/das/workbook/alive`,{...param}).then(result=> result).catch(err=>err)
 }
 
 

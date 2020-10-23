@@ -7,7 +7,7 @@ import DataDisplay from './components/dataDisplay'
 import Screen from './components/screen'
 import { queryDimensionMeasure, saveReport } from '@dashboard/service'
 import { RouteParams } from '@dashboard/router'
-import { useParams } from 'react-router-dom'
+import { useParams,useHistory } from 'react-router-dom'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
 import { useSelector, useDispatch } from 'react-redux'
@@ -16,7 +16,8 @@ import { message } from 'antd'
 
 export default () => {
   const { workbookId, dashboardId } = useParams<RouteParams>()
-  const { elements,name,layouts,selectId,dataSetId } = useSelector((state: State) => state)
+  const { elements,name,layouts,selectId,workBookInfo } = useSelector((state: State) => state)
+  const history = useHistory()
   const dispatch = useDispatch()
   const [dataDisList, setDataDisList] = useState([])
   const [scrList, setScrList] = useState([])
@@ -25,8 +26,10 @@ export default () => {
   const [measures, setMeasures] = useState([])
 
   useEffect(() => {
-    getDimensionMeasure()
-  }, [dataSetId])
+    if(workBookInfo){
+      getDimensionMeasure()
+    }
+  }, [workBookInfo])
 
   useEffect(()=> {
     if(selectId&&elements[selectId]){
@@ -42,7 +45,8 @@ export default () => {
   },[selectId])
 
   const getDimensionMeasure = () => { // 获取维度与度量
-    queryDimensionMeasure({ setId: dataSetId }).then(res => {
+    const newWorkBookInfo = deepCopy(workBookInfo)
+    queryDimensionMeasure({ setId: newWorkBookInfo.dataSetId }).then(res => {
       if(res.success){
         setDimensions(res.data.dimensions)
         setMeasures(res.data.measures)
@@ -107,6 +111,9 @@ export default () => {
       workBookId: workbookId,
       reportId:dashboardId
     }).then(res=> {
+      if(!res.success&&res.code=='A1010'){
+        history.replace('/dashboard/workbook')
+      }
     })
   }
 

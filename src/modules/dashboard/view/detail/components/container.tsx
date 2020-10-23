@@ -8,7 +8,7 @@ import RenameRender from './rename'
 import { deepCopy } from '@/common/utils'
 import { downloadFileByPost } from '@dashboard/service/downLoad'
 import { RouteParams } from '@dashboard/router'
-import { useParams } from 'react-router-dom'
+import { useParams,useHistory } from 'react-router-dom'
 import { State } from '@dashboard/store'
 const { Item } = Menu
 
@@ -19,7 +19,8 @@ const Container: FunctionComponent<{ data: Element }> = ({
   const { id } = data
   const { workbookId, dashboardId } = useParams<RouteParams>()
   const [showEdit, setEdit] = useState(false)
-  const { dataSetId,elements,layouts,name } = useSelector((state: State) => state)
+  const { workBookInfo,elements,layouts,name } = useSelector((state: State) => state)
+  const history = useHistory()
   const dispatch = useDispatch()
 
   const exportDataHandle = () => {
@@ -36,11 +37,11 @@ const Container: FunctionComponent<{ data: Element }> = ({
       return newItem
     })
     const newList = newDimensions.concat(newMeasures).sort((a,b)=>{return a.sortId-b.sortId})
-    console.log(newList)
+    const newWorkBookInfo = deepCopy(workBookInfo)
     downloadFileByPost('/bi-gateway/das/report/export',{
       type: 'excel',
       chartId: data.id,
-      dataSetId: dataSetId,
+      dataSetId: newWorkBookInfo.dataSetId,
       fileName: data.name,
       chartType: 'grid',
       filters: filters.map(item=> {
@@ -52,7 +53,7 @@ const Container: FunctionComponent<{ data: Element }> = ({
         return item
       })
     },data.name+'.xlsx').then(res=> {
-      console.log(res)
+
     })
   }
 
@@ -78,6 +79,9 @@ const Container: FunctionComponent<{ data: Element }> = ({
         elements: JSON.stringify(newElements)
 
       }).then(res=> {
+        if(!res.success&& res.code=='A1010'){
+          history.replace('/dashboard/workbook')
+        }
       })
     }
     setEdit(false)
@@ -120,7 +124,6 @@ const Container: FunctionComponent<{ data: Element }> = ({
   )
   return (
     <div className="db_detail_container" onMouseDown={() => {
-      console.log(1)
       dispatch({
         type: 'SELECT_ELEMENT',
         payload: id,

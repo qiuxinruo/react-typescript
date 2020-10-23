@@ -9,7 +9,7 @@ const { Option } = Select
 
 export default (props) => {
     const { item,updateItem } = props
-    const { dataSetId } = useSelector((state: State) => state)
+    const { workBookInfo } = useSelector((state: State) => state)
     const [filterType, setFilterType] = useState(undefined)
     const [filterHightType, setFilterHight] = useState(undefined)
     const [dataList, setDataList] = useState([])
@@ -23,7 +23,7 @@ export default (props) => {
                 setFilterType(1)
             }else {
                 setFilterType(2)
-                if(item.operator=='like'){
+                if(item.operator=='%like%'){
                     setFilterHight('containOperatorStrategy')
                     setFirstValue(item.value)
                 }else {
@@ -41,8 +41,9 @@ export default (props) => {
     }
 
     const getFieldValue = (e) => {
+        const newWorkBookInfo = deepCopy(workBookInfo)
         queryFieldValue({
-            dataSetId: dataSetId,
+            dataSetId: newWorkBookInfo.dataSetId,
             tableName: item.tableName,
             field: item.field,
             fieldType: item.fieldType,
@@ -51,7 +52,6 @@ export default (props) => {
             if (res.success) {
                 setDataList(res.data)
             }
-            console.log(res)
         })
     }
 
@@ -63,7 +63,7 @@ export default (props) => {
     const changeValue=(e)=> {
         const newItem = deepCopy(item) 
         newItem.value = JSON.stringify(e)
-        newItem.operator = 'in'
+        newItem.operator = e.length?'in':''
         updateItem(newItem)
     }
 
@@ -89,7 +89,7 @@ export default (props) => {
         setFilterHight(e)
         const newItem = deepCopy(item)
         if(e=='containOperatorStrategy'){
-            newItem.operator='like'
+            newItem.operator='%like%'
             newItem.value = ''
         }else {
             newItem.operator='between',

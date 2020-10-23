@@ -10,21 +10,24 @@ import { State } from '@dashboard/store'
 import Conatainer from './container'
 
 export default ({ data }: { data: Table }) => {
-  const { dataSetId } = useSelector((state: State) => state)
+  const { workBookInfo } = useSelector((state: State) => state)
   const [columns, setColumns] = useState([])
   const [dataSource, setDataSource] = useState([])
   const [loading, setLoading] = useState(false)
   const [text, setText] = useState('')
   const [showError, setShowError] = useState(false)
-  console.log(dataSetId, 'dataSetId')
   useEffect(() => {
     getList(null)
-  }, [data, dataSetId])
+  }, [data, workBookInfo])
 
   const getList = (param) => {
     let newData = deepCopy(data)
     const { dimensions = [], measures = [], filters = [] } = newData
     const newList = dimensions.concat(measures).sort((a, b) => { return a.sortId - b.sortId })
+   console.log(filters,'filters')
+   const newFilters = filters.filter(item=>item.operator&&item.value)
+   console.log(newFilters)
+    let newWorkInfo = deepCopy(workBookInfo)
     getColums(newList)
     setLoading(true)
     if (!dimensions.length && !measures.length) {
@@ -32,7 +35,7 @@ export default ({ data }: { data: Table }) => {
     } else {
       getReportData({
         chartType: 'grid',
-        dataSetId: dataSetId,
+        dataSetId: newWorkInfo.dataSetId,
         orderInfo: param,
         dimensions: dimensions.map(item => {
           delete item.sortId
@@ -42,9 +45,7 @@ export default ({ data }: { data: Table }) => {
           delete item.sortId
           return item
         }),
-        filters: filters.map(item => {
-          return item
-        })
+        filters: newFilters
       }).then(res => {
         setLoading(false)
         if (res.success) {
@@ -66,7 +67,6 @@ export default ({ data }: { data: Table }) => {
   }
 
   const handleTableChange = (pagination, filters, sorter) => {
-    console.log(pagination, filters, sorter)
     let param = !sorter.order ? null : {
       columnName: sorter.field,
       orderParam: sorter.order == 'ascend' ? 0 : 1
