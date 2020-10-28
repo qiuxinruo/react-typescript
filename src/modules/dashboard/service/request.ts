@@ -35,11 +35,14 @@ axiosWindowInstance.interceptors.response.use(
 		if (error.response.status === 401) {
 			message.error('登录状态失效，请重新登录')
 			window.location.href = window.location.origin + window.location.pathname + '#/dashboard/login'
-		}
-		if (error.response.status === 500 || error.response.status===504) {
+		}else {
 			message.error('网络错误')
 			return Promise.reject(error)
 		}
+		// if (error.response.status === 500 || error.response.status===504) {
+		// 	message.error('网络错误')
+		// 	return Promise.reject(error)
+		// }else
 	}
 )
 

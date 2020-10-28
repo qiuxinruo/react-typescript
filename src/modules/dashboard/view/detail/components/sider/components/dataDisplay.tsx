@@ -62,7 +62,6 @@ const DragItem = (props) => {
 const DataDisplay: React.FC<chilProps> = (props) => {
     const { onDrop, list, updateList } = props
     const [hoverIndex, setHoverItem] = useState(null)
-
     const changeName = (e, e1) => {
         let newList = deepCopy(list)
         if (!newList[e1].function) {

@@ -4,6 +4,8 @@ import Cookies from 'js-cookie'
 import Detail from '@dashboard/view/detail'
 import workBook from '@dashboard/view/workBook'
 import login from '@dashboard/view/Login'
+import DotSafeguard from '@dashboard/view/dotSafeguard'
+
 export interface RouteParams {
   workbookId: string
   dashboardId?: string
@@ -36,6 +38,7 @@ const RouterRender= (props) => {
     <Route path="/dashboard/login" component={login} />
     <PrivateRoute path="/dashboard/workbook" component={workBook} />
     <PrivateRoute path={`/dashboard/detail/:workbookId/:dashboardId?`} component={Detail} />
+    <PrivateRoute path="/dashboard/dotsafeguard" component={DotSafeguard} />
   </Switch>
   </>
 }

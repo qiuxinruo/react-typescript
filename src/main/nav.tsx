@@ -17,7 +17,10 @@ const Nav=() => {
                     className='db_main_nav_content_list'>
                     <Menu.Item key="/dashboard/workbook">
                         <Link to='/dashboard/workbook'>工作簿</Link>
-                    </Menu.Item>                    
+                    </Menu.Item>
+                    {/* <Menu.Item key="/dashboard/dotsafeguard">
+                        <Link to='/dashboard/dotsafeguard'>打点维护</Link>
+                    </Menu.Item>                   */}
                 </Menu>
             </div>
         </div>
