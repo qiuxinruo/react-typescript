@@ -7,6 +7,14 @@ interface chilProps{
 }
 const SearchRender:React.FC <chilProps>= (props) => {
     const { handleSearch } = props
+
+    const changeValue=(e)=> {
+        console.log(e)
+        if(!e){
+            handleSearch('')
+        }
+    }
+
     return (
         <div>
             <Search
@@ -14,6 +22,7 @@ const SearchRender:React.FC <chilProps>= (props) => {
                 enterButton="搜索"
                 style={{ width: 300 }}
                 onSearch={value => handleSearch(value)}
+                onChange={e=>changeValue(e.target.value)}
             />
         </div>
     )

@@ -7,15 +7,15 @@ import './index.less'
 
 export default () => {
     const [data, setData] = useState([])
-    const [keyWordQUERY, setKeyWordQUERY] = useState('')
+    const [keyWord, setKeyWord] = useState('')
     const [loading, setLoading] = useState(false)
     useEffect(()=> {
         getList()
-    },[keyWordQUERY])
+    },[keyWord])
 
     const getList =()=> {
         setLoading(true)
-        queryList({keyWordQUERY:keyWordQUERY}).then(res=> {
+        queryList({keyWord:keyWord}).then(res=> {
             setLoading(false)
             if(res.success){
                 setData(res.data)
@@ -35,7 +35,7 @@ export default () => {
                 工作簿
             </div>
             <div className='db_workbook_search'>
-                <Search handleSearch={(e)=>setKeyWordQUERY(e)}/>
+                <Search handleSearch={(e)=>setKeyWord(e)}/>
             </div>
             <div className='db_workbook_table'>
                 <Table data={data} updataList={()=>updateList()}/>
