@@ -19,7 +19,7 @@ const Nav=() => {
                         <Link to='/dashboard/workbook'>工作簿</Link>
                     </Menu.Item>
                     <Menu.Item key="/dashboard/dotsafeguard">
-                        <Link to='/dashboard/dotsafeguard'>打点维护</Link>
+                        <Link to='/dashboard/dotsafeguard'>打点中心</Link>
                     </Menu.Item>                  
                 </Menu>
             </div>
