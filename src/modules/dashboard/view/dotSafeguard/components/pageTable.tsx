@@ -1,57 +1,39 @@
 import React, { useState } from 'react'
-import { Table as AntTable, Button } from 'antd'
-import { Link, useParams } from 'react-router-dom'
+import { Table as AntTable, Button, Modal, message } from 'antd'
+import { useHistory, useParams } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import classnames from 'classnames'
 import AddPage from './addPage'
 import { RouteParams } from '@dashboard/router'
+import { pageDel } from '@dashboard/service'
+import PageDefault from '@dashboard/constant/table_page_default'
 
-export default () => {
+const { confirm } = Modal
+export default (props) => {
     const { projectId, modularId } = useParams<RouteParams>()
+    const history = useHistory()
+    const dispatch =useDispatch()
+    const { page, totalCount } = props
     const [modalShow, setShow] = useState(false)
-    const [list, setList] = useState([{
-        name: '首页',
-        userName: '邱欣若',
-        projectCode: '1234',
-        pageCode: '5678',
-        pageId: 1
-    }, {
-        name: '首页1',
-        userName: '邱欣若',
-        projectCode: '1234',
-        pageCode: '5678',
-        pageId: 2
-    }, {
-        name: '首页2',
-        userName: '邱欣若',
-        projectCode: '1234',
-        pageCode: '5678',
-        pageId: 3
-    }, {
-        name: '首页3',
-        userName: '邱欣若',
-        projectCode: '1234',
-        pageCode: '5678',
-        pageId: 4
-    },]
-    )
+    const [pageData,setPage] = useState({})
     const columns = [
         {
             title: '页面',
-            dataIndex: 'name',
-            key: 'name',
+            dataIndex: 'pageName',
+            key: 'pageName',
             render: (text, record) => {
-                return <Link to={`/dashboard/page/${projectId}/${modularId}/${record.pageId}`}>{text}</Link>
+                return <span className='db_dot_table-tableBtn' onClick={()=>goToPage(record)}>{text}</span>
             }
         },
         {
-            title: '发布人',
-            dataIndex: 'userName',
-            key: 'userName'
+            title: '创建时间',
+            dataIndex: 'createTime',
+            key: 'createTime'
         },
         {
             title: '模块编码',
-            dataIndex: 'projectCode',
-            key: 'projectCode'
+            dataIndex: 'moduleCode',
+            key: 'moduleCode'
         },
         {
             title: '页面编码',
@@ -64,22 +46,64 @@ export default () => {
             key: 'action',
             render: (text, record) => {
                 return <div>
-                    <Link to={`/dashboard/page/${projectId}/${modularId}/${record.pageId}`}><span className={classnames('db_dot_table-tableBtn')}>查看</span></Link>
-                    <span className={classnames('db_dot_table-tableBtn', 'db_dot_table-edit')}>编辑</span>
-                    <span className={classnames('db_dot_table-tableBtn', 'db_dot_table-edit')}>删除</span>
+                    <span onClick={()=>goToPage(record)} className={classnames('db_dot_table-tableBtn', 'db_dot_table-edit')}>查看</span>
+                    <span onClick={()=>{setShow(true);setPage(record)}} className={classnames('db_dot_table-tableBtn', 'db_dot_table-edit')}>编辑</span>
+                    <span onClick={()=>delPage(record)} className={classnames('db_dot_table-tableBtn', 'db_dot_table-edit')}>删除</span>
                 </div>
             }
         },
     ]
-    const closeModal = () => {
+    const closeModal = (e) => {
         setShow(false)
+        if(e){
+            props.updataList()
+        }
+    }
+
+    const goToPage=(record)=> {
+        dispatch({
+            type: 'SET_PAGE',
+            payload: {
+                name: record.pageName,
+                id: record.id
+            }
+        })
+        history.push(`/dashboard/page/${projectId}/${modularId}/${record.id}`)
+    }
+
+
+    const delPage=(record)=> {
+        confirm({
+            title: '确认删除',
+            content: '是否确认删除，数据删除不可修复',
+            okText: '确认',
+            cancelText: '取消',
+            onCancel() {},
+            onOk() {
+                pageDel({id:record.id}).then(res=> {
+                    if(res.success){
+                        message.success('删除成功')
+                        props.updataList()
+                    }else {
+                        message.warning(res.msg)
+                    }
+                })
+            }
+        })
     }
 
     return <div className='db_dot_table'>
-        <Button className='db_dot_table-btn' type='primary'>新建页面</Button>
-        <AntTable columns={columns} dataSource={list} rowKey={record => record.pageId} />
+        <Button className='db_dot_table-btn' onClick={()=>{setShow(true);setPage({})}} type='primary'>新建页面</Button>
+        <AntTable columns={columns} dataSource={props.list} rowKey={record => record.pageId} pagination={Object.assign({}, PageDefault, {
+            onChange: (index, size) =>props.changePages(index, size),
+            onShowSizeChange: (index, size) => props.changePages(index, size),
+            current: page.pageIndex,
+            total: totalCount,
+            pageSize: page.pageSize,
+            defaultPageSize: page.pageSize,
+        })} />
         {
-            modalShow && <AddPage closeModal={() => closeModal()} />
+            modalShow && <AddPage closeModal={(e) => closeModal(e)} page={pageData} modularId={modularId}/>
         }
     </div>
 }

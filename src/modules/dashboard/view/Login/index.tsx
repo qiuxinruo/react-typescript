@@ -1,20 +1,26 @@
 import React, { useState, useEffect } from 'react'
 import { Divider, Button, Form, Input, Row, Col, message } from 'antd'
 import { useHistory } from 'react-router-dom'
-
+import { useDispatch } from 'react-redux'
 import { companyInfo } from '@dashboard/constant'
 import formatReg from '@/common/utils/formValidatorRegex'
 import imgUrl from '../../statics/images/logo.png'
-import { sendCaptcha,login } from '@dashboard/service'
+import { sendCaptcha,login,provList } from '@dashboard/service'
 import Cookies from 'js-cookie'
+
+import ChooseEnv from './ChooseEnv'
+
 import './index.less'
 
 const Login = (props) => {
   const [text, setText] = useState('获取验证码')
   const [disable, setDisable] = useState(true)
   const [loading, setLoading] = useState(false)
+  const [visible, setVisible] = useState(false)
+  const [liDoms, setLiDoms] = useState([])
   const [form] = Form.useForm()
   const history = useHistory()
+  const dispatch = useDispatch()
   let countdown = 60,setTimeouts = null
 
   useEffect(() => {
@@ -68,11 +74,33 @@ const Login = (props) => {
       captcha:captcha
     }).then(res=> {
       if(res.success){
-        Cookies.set('isLogined', '1')
-        history.push('/dashboard/workbook')
-
+        queryAllEnvs()
       }
     })
+  }
+
+  const queryAllEnvs= () => {
+    provList({}).then(res=> {
+      if(res.success){
+        const { data } = res
+        const liDoms = data.map(item => (
+          <li onClick={()=>handleSelectEnv(item.appType)} key={item.appType}>
+            {item.name}
+          </li>
+        ))
+        setVisible(true)
+        console.log(liDoms)
+        setLiDoms(liDoms)
+      }else {
+        message.warning(res.msg)
+      }
+    })
+  }
+
+  const handleSelectEnv=(item)=> {
+    Cookies.set('isLogined', '1')
+    Cookies.set('env_choose', item)
+    history.push('/dashboard/workbook')
   }
 
   return (
@@ -155,6 +183,7 @@ const Login = (props) => {
         </div>
         <p>{companyInfo.footText}</p>
       </footer>
+      <ChooseEnv visible={visible} liDoms={liDoms} />
     </div>
   )
 }

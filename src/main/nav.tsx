@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React , { useState }from 'react'
+import { Link,withRouter } from 'react-router-dom'
 import { Menu } from 'antd'
 
 
@@ -7,13 +7,14 @@ interface childNav{
     defaultSelectedKeys: String[],
 }
 
-const Nav=() => {
-    const defaultSelectedKeys = ['/dashboard/workbook']
+const Nav=(props) => {
+    const pathNameArr = props.location.pathname.split('/');
+    const defaultKey = pathNameArr.some(item=>item==='workbook')? ['/dashboard/workbook']: ['/dashboard/dotsafeguard']
     return (
         <div className='db_main_nav'>
             <div className='db_main_nav_content'>
                 <Menu
-                    defaultSelectedKeys={defaultSelectedKeys}
+                    defaultSelectedKeys={defaultKey}
                     className='db_main_nav_content_list'>
                     <Menu.Item key="/dashboard/workbook">
                         <Link to='/dashboard/workbook'>工作簿</Link>
@@ -27,4 +28,4 @@ const Nav=() => {
     )
 }
 
-export default Nav
+export default withRouter(Nav)

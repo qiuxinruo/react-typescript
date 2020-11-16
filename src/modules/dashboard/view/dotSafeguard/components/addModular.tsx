@@ -1,57 +1,172 @@
-import React, { useState } from 'react'
-import { Modal, Form, Input, Checkbox } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Modal, Form, Input, Checkbox, message, Select } from 'antd'
+import { useSelector } from 'react-redux'
+import { State } from '@dashboard/store'
+import { selecModuletList, selectList, codeGen, moduleSave, moduleEdit, selectPageList } from '@dashboard/service'
+import Cookies from 'js-cookie'
+const { Option } = Select
+
 export default (props) => {
-    const { closeModal } = props
-    const [form] = Form.useForm()
+    const { } = useSelector((state: State) => state)
+    const { closeModal, module } = props
+    const [data, setData] = useState({
+        name: '',
+        code: '',
+        sync: false,
+        projectId: props.projectId,
+        idList: []
+    })
+
     const layout = {
         labelCol: { span: 6 },
         wrapperCol: { span: 16 },
     }
-    const [list,setList] = useState([
-        {
-            lebel: '浙江',
-            value: 1
-        },
-        {
-            lebel: '浙江彩云',
-            value: 2
-        },
-        {
-            lebel: '移动办公云',
-            value: 3
-        },
-    ])
-
-    const submit=()=> {
-        console.log(form)
+    const [list, setList] = useState([])
+    const [projectList, setProjectList] = useState([])
+    const [select, setSelect] = useState([])
+    const submit = () => {
+        if (!data.name) {
+            message.warning('请输入模块名称')
+            return false
+        }
+        if (!data.code) {
+            message.warning('code生成失败')
+            return false
+        }
+        if (props.module.id) {
+            moduleEdit({
+                id: props.module.id,
+                name: data.name,
+                code: data.code
+            }).then(res => {
+                if (res.success) {
+                    message.success('修改成功')
+                    closeModal(true)
+                } else {
+                    message.warning(res.msg)
+                }
+            })
+        } else {
+            moduleSave({
+                ...data
+            }).then(res => {
+                if (res.success) {
+                    message.success('新建成功')
+                    closeModal(true)
+                } else {
+                    message.warning(res.msg)
+                }
+            })
+        }
     }
-    return <div className='db_dot_project'>
+
+    useEffect(() => {
+        getList()
+        if (!props.module.id) {
+            getCode()
+            setData({
+                ...data,
+                name: props.module.name,
+                code: props.module.code
+            })
+        }
+    }, [])
+
+    const getCode = () => {
+        codeGen({
+            fkId: props.projectId,
+            bizType: 1
+        }).then(res => {
+            console.log(res)
+            if (res.success) {
+                setData({
+                    ...data,
+                    code: res.data
+                })
+            }
+        })
+    }
+
+    const getList = () => {
+        selectList({
+            prov: Cookies.get('env_choose')
+        }).then(res => {
+            if (res.success) {
+                setProjectList(res.data)
+            }
+        })
+    }
+
+    const getModuleList = (e) => {
+        selecModuletList({
+            projectIdList: e
+        }).then(res => {
+            if (res.success) {
+                setList(res.data)
+            }
+        })
+    }
+
+    const changeProjectItem = (e) => {
+        setSelect([e])
+        getModuleList([e])
+        setData({
+            ...data,
+            idList: []
+        })
+    }
+
+    const changeItem = (e) => {
+        setData({
+            ...data,
+            idList: [e]
+        })
+    }
+
+    return <div className='db_dot_add'>
         <Modal
             visible={true}
-            title="添加模块"
-            onOk={()=>submit()}
-            onCancel={()=>closeModal()}
+            title={module.id ? '修改模块': '添加模块'}
+            onOk={() => submit()}
+            onCancel={() => closeModal()}
         >
-            <Form form={form} {...layout}>
-                <Form.Item label='模块名称' name='name' rules={[{ required: true, message: '请输入项目名称' }]}>
-                    <Input placeholder='请输入' maxLength={20} />
+            <Form {...layout}>
+                <Form.Item label='模块名称'>
+                    <Input placeholder='请输入' value={data.name} onChange={e => { setData({ ...data, name: e.target.value }) }} maxLength={20} />
                 </Form.Item>
-                <Form.Item label='项目编码' name='code'>
-                    <Input placeholder='自动生成'/>
+                <Form.Item label='项目编码'>
+                    <Input placeholder='自动生成' value={data.code} disabled />
                 </Form.Item>
-                <Form.Item>
-                    <div className='db_dot_project-checkbox' ><Checkbox>同步其他版本</Checkbox></div>
-                </Form.Item>
-                <Form.Item label='模块模板'>
-                    <div className='db_dot_project-template'>
-                        {
-                            list.map((item,index)=> {
-                                return <div className='db_dot_project-item' key={item.value}>{item.lebel}</div> 
-                            } )
-                        }
-                    </div>
-                </Form.Item>
+                {
+                    !props.module.id && <Form.Item>
+                        <div className='db_dot_add-checkbox' >
+                            <Checkbox onChange={e => { setData({ ...data, sync: e.target.checked }) }}>同步其他版本</Checkbox>
+                        </div>
+                    </Form.Item>
+                }
+                {
+                    data.sync && <Form.Item label='项目模板'>
+                        <Select onChange={e => changeProjectItem(e)} placeholder='请选择' value={select.length ? select[0] : undefined}>
+                            {
+                                projectList.map((item, index) => {
+                                    return <Option key={index} value={item.id} > {item.projectName}</Option>
+                                })
+                            }
+                        </Select>
+                    </Form.Item>
+                }
+                {
+                    select.length > 0 && data.sync && <Form.Item label='模块模板'>
+                        <Select onChange={e => changeItem(e)} placeholder='请选择' value={data.idList.length ? data.idList[0] : undefined}>
+                            {
+                                list.map((item, index) => {
+                                    return <Option key={index} value={item.id} >{item.moduleName}</Option>
+                                })
+                            }
+                        </Select>
+                    </Form.Item>
+                }
             </Form>
         </Modal>
-    </div>
+    </div >
 }
