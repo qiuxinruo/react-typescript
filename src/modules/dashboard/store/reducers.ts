@@ -7,7 +7,12 @@ import { Action } from './actions'
 
 export interface State extends Dashboard {
   selectId?: string,
-  workBookInfo?:Object
+  workBookInfo?: Object,
+  project?: Object,
+  modular?: Object,
+  page?: Object,
+  env_choose?:String,
+  envs?: Array<Object>
 }
 
 const initialState: State = {
@@ -37,9 +42,19 @@ export default (state = initialState, action: Action): State => {
     case 'CANVAS_MOUSE_DOWN':
       return { ...state, selectId: undefined }
     case 'INIT_STATE':
-      return { ...state, name: action.payload.name,elements:action.payload.elements, layouts:action.payload.layouts }
+      return { ...state, name: action.payload.name, elements: action.payload.elements, layouts: action.payload.layouts }
     case 'WORKBOOK_INFO_CHANGE':
-        return {...state,workBookInfo:action.payload}
+      return { ...state, workBookInfo: action.payload }
+    case 'SET_PROJECT':
+      return { ...state, project: action.payload }
+    case 'SET_MODULAR':
+      return { ...state, modular: action.payload }
+    case 'SET_PAGE':
+      return { ...state, page: action.payload }
+    case 'SET_ENV_CHOOSE':
+      return {...state, env_choose:action.payload}
+    case 'SET_ENVS': 
+    return {...state,envs:action.payload}
     default:
       return state
   }

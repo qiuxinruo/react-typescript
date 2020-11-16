@@ -15,7 +15,7 @@ const App = (props) => {
       !pathList.some(item=>item==='login') && <Header />
     }
     {
-      pathList.some(item=>item==='workbook'||item==='dotsafeguard') && < Nav />
+      pathList.some(item=>item!=='login'||item!=='detail') && < Nav />
     }
     <div className={classnames('db_app_DashBoard-wrap')}>
       <DashBoard />

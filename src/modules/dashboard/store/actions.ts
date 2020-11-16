@@ -39,6 +39,31 @@ export interface WorkBookInfo {
   type: 'WORKBOOK_INFO_CHANGE'
 }
 
+export interface SetProject {
+  payload: Object,
+  type: 'SET_PROJECT'
+}
+
+export interface SetModular {
+  payload: Object,
+  type: 'SET_MODULAR'
+}
+
+export interface SetPage {
+  payload: Object,
+  type: 'SET_PAGE'
+}
+
+export interface SetEnvChoose {
+  payload: String,
+  type: 'SET_ENV_CHOOSE'
+}
+
+export interface SetEnvs {
+  payload: Array<Object>,
+  type: 'SET_ENVS'
+}
+
 export type Action =
   | AddElementAction
   | DeleteElementAction
@@ -48,3 +73,8 @@ export type Action =
   | UpdateStateAction
   | ElementsChnageAction
   | WorkBookInfo
+  | SetProject
+  | SetModular
+  | SetPage
+  | SetEnvChoose
+  | SetEnvs

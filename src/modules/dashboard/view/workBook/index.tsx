@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Loading from '@dashboard/components/loading'
-import Search from './components/search'
+import Search from '@dashboard/components/Search'
 import Table from './components/table'
 import { queryList } from '@dashboard/service'
 import './index.less'
@@ -35,7 +35,7 @@ export default () => {
                 工作簿
             </div>
             <div className='db_workbook_search'>
-                <Search handleSearch={(e)=>setKeyWord(e)}/>
+                <Search handleSearch={(e)=>setKeyWord(e)} placeholderText="搜索工作簿"/>
             </div>
             <div className='db_workbook_table'>
                 <Table data={data} updataList={()=>updateList()}/>

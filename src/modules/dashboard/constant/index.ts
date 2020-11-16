@@ -20,6 +20,33 @@ export const FILTER_HIGHT_ITEM = [
     }
 ]
 
+export const OPERATOR= [
+    {
+        label: '+',
+        value: '+'
+    },
+    {
+        label: '-',
+        value: '-'
+    },
+    {
+        label: '*',
+        value: '*'
+    },
+    {
+        label: '/',
+        value: '/'
+    },
+    {
+        label: '(',
+        value: '('
+    },
+    {
+        label: ')',
+        value: ')'
+    },
+]
+
 export const INPUT_TEXT = {
     containOperatorStrategy: '包含',
     betweenOperatorStrategy: '范围'

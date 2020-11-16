@@ -88,10 +88,127 @@ export function login(param) {
   return request.get(`${api}/ms-mgr/login`,{...param}).then(result=> result).catch(err=>err)
 }
 
+export function configurationCenter(param) {
+  return request.get(`${api}/ms-mgr/property/listEnv`,{...param}).then(result=> result).catch(err=>err)
+}
+
 
 //释放工作簿锁
 export function alive(param) {
   return request.post(`${api}/das/workbook/alive`,{...param}).then(result=> result).catch(err=>err)
 }
 
+//项目列表
+export function projectList(param) {
+  return request.post(`${api}/dotMgr/dot/project/list`,{...param}).then(result => result).catch(err=>err)
+}
+
+//省市编码接口
+export function provList(param) {
+  return request.get(`${api}/dotMgr/dot/prov/list`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//编码生成接口
+export function codeGen(param) {
+  return request.get(`${api}/dotMgr/dot/code/gen`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//创建项目
+export function projectSave(param) {
+  return request.post(`${api}/dotMgr/dot/project/save`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//编辑项目
+export function projectEdit(param) {
+  return request.post(`${api}/dotMgr/dot/project/edit`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//删除项目
+export function projectDel(param) {
+  return request.get(`${api}/dotMgr/dot/project/delete`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//项目下拉
+export function selectList(param) {
+  return request.post(`${api}/dotMgr/dot/project/selectList`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//创建模块
+export function moduleSave(param) {
+  return request.post(`${api}/dotMgr/dot/module/save`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//编辑模块
+export function moduleEdit(param) {
+  return request.post(`${api}/dotMgr/dot/module/edit`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//删除项目
+export function moduletDel(param) {
+  return request.get(`${api}/dotMgr/dot/module/delete`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//模块分页列表
+export function moduleList(param) {
+  return request.post(`${api}/dotMgr/dot/module/list`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//模块下拉
+export function selecModuletList(param) {
+  return request.post(`${api}/dotMgr/dot/module/selectList`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//创建页面
+export function pageSave(param) {
+  return request.post(`${api}/dotMgr/dot/page/save`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//编辑页面
+export function pageEdit(param) {
+  return request.post(`${api}/dotMgr/dot/page/edit`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//删除页面
+export function pageDel(param) {
+  return request.get(`${api}/dotMgr/dot/page/delete`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//页面分页列表
+export function pageList(param) {
+  return request.post(`${api}/dotMgr/dot/page/list`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//页面下拉
+export function selectPageList(param) {
+  return request.post(`${api}/dotMgr/dot/page/selectList`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//创建事件
+export function eventSave(param) {
+  return request.post(`${api}/dotMgr/dot/event/save`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//编辑事件
+export function eventEdit(param) {
+  return request.post(`${api}/dotMgr/dot/event/edit`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//删除事件
+export function eventDel(param) {
+  return request.get(`${api}/dotMgr/dot/event/delete`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//编辑事件
+export function eventList(param) {
+  return request.post(`${api}/dotMgr/dot/event/list`,{...param}).then(result=> result).catch(err=>err)
+}
+
+//事件下拉
+export function eventSelectList(param) {
+  return request.post(`${api}/dotMgr/dot/event/selectList`,{...param}).then(result=> result).catch(err=>err)
+}
+
+export function selectTypeList(param) {
+  return request.get(`${api}/dotMgr/dot/event/type/selectList`,{...param}).then(result=> result).catch(err=>err)
+}
 
