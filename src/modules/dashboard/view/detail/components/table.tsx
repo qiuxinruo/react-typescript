@@ -22,11 +22,9 @@ export default ({ data }: { data: Table }) => {
 
   const getList = (param) => {
     let newData = deepCopy(data)
-    const { dimensions = [], measures = [], filters = [] } = newData
-    const newList = dimensions.concat(measures).sort((a, b) => { return a.sortId - b.sortId })
-   console.log(filters,'filters')
-   const newFilters = filters.filter(item=>item.operator&&item.value)
-   console.log(newFilters)
+    const { dimensions = [], measures = [], filters = [],calculateFields=[] } = newData
+    const newList = dimensions.concat(measures).concat(calculateFields).sort((a, b) => { return a.sortId - b.sortId })
+    const newFilters = filters.filter(item => item.operator && item.value)
     let newWorkInfo = deepCopy(workBookInfo)
     getColums(newList)
     setLoading(true)
@@ -45,7 +43,12 @@ export default ({ data }: { data: Table }) => {
           delete item.sortId
           return item
         }),
-        filters: newFilters
+        calculateFields: calculateFields.map(item=> {
+          return item
+        }),
+        dimensionFilters: newFilters.filter(item=>!item.function&&!item.expression),
+        measureFilters: newFilters.filter(item=>item.function),
+        calculateFieldFilters: newFilters.filter(item=>item.expression)
       }).then(res => {
         setLoading(false)
         if (res.success) {
@@ -77,7 +80,7 @@ export default ({ data }: { data: Table }) => {
   const getColums = (list) => {
     const newColumns = list.map(item => {
       return {
-        title: !item.function ? item.alias : item.name,
+        title: !item.function&&!item.expression ? item.alias : item.name,
         key: item.columnName,
         dataIndex: item.columnName,
         sorter: true,
@@ -90,7 +93,7 @@ export default ({ data }: { data: Table }) => {
     <Conatainer data={data}>
       <AntTable loading={loading} columns={columns} dataSource={dataSource} rowKey={record => record.itemId} onChange={(pagination, filters, sorter) => handleTableChange(pagination, filters, sorter)} />
       {
-        showError && <div className='db_detail_container-textWrap'><span>报错信息：</span>{text}</div>
+        showError && <div className='db_detail_container-textWrap'><span>报错信息：sql执行失败</span></div>
       }
     </Conatainer>
   )

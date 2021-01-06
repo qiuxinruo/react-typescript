@@ -59,6 +59,11 @@ const TableRender: React.FC<childProps> = (props) => {
             dataIndex: 'dataSetCubeName'
         },
         {
+            title: '创建时间',
+            key: 'create',
+            dataIndex: 'create'
+        },
+        {
             title: '发布人',
             key: 'ownerName',
             dataIndex: 'ownerName'

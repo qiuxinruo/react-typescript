@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export default (props)=> {
-    console.log(props)
     const [list, setList] = useState(props.bread)
     return <div className='db_dot_project-header'>
         {

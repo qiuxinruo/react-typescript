@@ -42,7 +42,6 @@ export default () => {
     }
 
     const changePages=(index,size)=> {
-        console.log(index,size)
         setPage({
             ...page,
             pageIndex:index,

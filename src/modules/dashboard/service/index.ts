@@ -16,8 +16,8 @@ export function addElement(dashboard: Dashboard, type: Element['type']) {
   dashboard.layouts.push(laylout)
 }
 
-let api = '/bi-gateway'
-// let api = ''
+// let api = '/bi-gateway'
+let api = ''
 
 export function deleteElement(dashboard: Dashboard, id: string) {
   delete dashboard.elements[id]
@@ -41,7 +41,7 @@ export function deleteBook(param:Object) {
 }
 
 export function queryDimensionMeasure(param:Object) {
-  return request.get(`${api}/das/dataSet/queryDimensionMeasure`,{...param}).then(result=> result).catch(err=>err)
+  return request.get(`${api}/das/dataSet/queryContent`,{...param}).then(result=> result).catch(err=>err)
 }
 
 export function queryReportList(param:Object) {
@@ -212,3 +212,14 @@ export function selectTypeList(param) {
   return request.get(`${api}/dotMgr/dot/event/type/selectList`,{...param}).then(result=> result).catch(err=>err)
 }
 
+export function operatorList(param) { //筛选操作符
+  return request.get(`${api}/das/report/filter/operatorList`,{...param}).then(result=> result).catch(err=>err)
+}
+
+export function calculatedField(param) { //计算字段保存
+  return request.post(`${api}/das/dataSet/calculate/save`,{...param}).then(result=> result).catch(err=>err)
+}
+
+export function deleteCalculate(param) {
+  return request.post(`${api}/das/dataSet/calculate/delete`,{...param}).then(result=> result).catch(err=>err)
+}

@@ -11,7 +11,6 @@ import PageDefault from '@dashboard/constant/table_page_default'
 const { confirm } = Modal
 
 export default (props) => {
-    console.log(props)
     const { page,totalCount } = props
     const [modalShow, setShow] = useState(false)
     const [project, setProject] = useState({})

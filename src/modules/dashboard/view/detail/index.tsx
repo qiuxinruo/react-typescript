@@ -6,8 +6,8 @@ import Header from './components/header'
 import Toolbar from './components/toolbar'
 import Content from './components/content'
 import Sider from './components/sider'
-import './index.less'
 
+import './index.less'
 export default () => {
   const { workbookId, dashboardId } = useParams<RouteParams>()
   let setTimeouts = null
@@ -22,7 +22,6 @@ export default () => {
   }
 
   const setTime=()=> {
-    console.log(1,new Date())
     alive({workBookId:workbookId}).then(res=> {
       if(!res.success){
         history.replace('/dashboard/workbook')

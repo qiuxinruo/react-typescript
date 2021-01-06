@@ -60,7 +60,6 @@ export default (props) => {
             fkId: props.pageId,
             bizType: 3
         }).then(res => {
-            console.log(res)
             if (res.success) {
                 if(props.event.id){
                     setData({

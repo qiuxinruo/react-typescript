@@ -4,7 +4,7 @@ import DragMeaItem from './dragMeaItem'
 export default (props)=> {
     const { list } = props
     return (
-        <div className='db_detail_measures'>
+        <div className='db_detail_measures borBottom'>
             <span className='db_detail_measures-name'>度量</span>
             <div className='db_detail_measures-content'>
                 {

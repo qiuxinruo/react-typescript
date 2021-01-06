@@ -2,7 +2,6 @@ import React from 'react'
 import { Modal} from 'antd'
 
 const ChooseEnv = (props) => {
-  console.log(props)
      return <Modal
       visible={props.visible}
       title="选择环境"
