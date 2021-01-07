@@ -6,7 +6,7 @@ export interface DataSet {}
 // 元素
 export interface Element {
   id: string
-  type: 'Table' 
+  type: 'Table'
   name: string
 }
 

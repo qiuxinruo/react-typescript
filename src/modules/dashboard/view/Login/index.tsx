@@ -89,7 +89,6 @@ const Login = (props) => {
           </li>
         ))
         setVisible(true)
-        console.log(liDoms)
         setLiDoms(liDoms)
       }else {
         message.warning(res.msg)

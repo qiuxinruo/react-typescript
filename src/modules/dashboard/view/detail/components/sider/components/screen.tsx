@@ -43,7 +43,7 @@ const Screen: React.FC<chilProps> = (props) => {
                     {
                         list.map((item, index) => {
                             return <div key={index} className='db_detail_screen-screenItem'>
-                                <span className='db_detail_screen-screenName'>{item.alias}</span>
+                                <span className='db_detail_screen-screenName'>{item.alias || item.name}</span>
                                 <CloseOutlined onClick={() => delScreenItem(index)} className='db_detail_screen-screenClose' />
                                 <FilterItem item={item} itemIndex={index} updateItem={(e) => updateItem(e, index)} />
                             </div>

@@ -58,6 +58,8 @@
     }
     &-contain{
       padding-left: 35px;
+      height: 377px;
+      overflow: auto;
     }
     &-item{
       width: 144px;
@@ -84,6 +86,24 @@
     &-header{
       height: 41px;
       border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    &-editWrap{
+      position: relative;
+      width: 500px;
+      height: 400px;
+    }
+    &-editContent{
+      inset: 0px 0px 24px;
+      position: absolute;
+      top:5px;
+      left:2px;
+      right:2px;
+      outline: none;
+    }
+    &-des{
+      position: absolute;
+      bottom: 0;
+      left:10px;
     }
   }
   &_toolbar {
@@ -154,32 +174,40 @@
     }
   }
   &_dataset{
-    padding: 15px 0 30px 0;
+    padding: 10px 0 10px 0;
     border-bottom: 1px solid #EAECED;
     &-name{
-        font-size: 16px;
+        font-size: 14px;
         color: #1D223E;
         margin-left: 25px;
+
     }
     &-dataname{
-        font-size: 14px;
+        font-size: 12px;
         color: #5C626B;
         background-color: #F7F8F9;
         line-height: 30px;
-        margin-top: 15px;
+        margin-top: 8px;
         padding: 0 25px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 }
-&_dimension,&_datadisplay{
-    padding: 15px 25px 20px 25px;
+&_dimension,&_datadisplay,&_count{
+    padding: 10px 10px 10px 10px;
     border-bottom: 1px solid #EAECED;
     &-name{
-        font-size: 16px;
+        font-size: 14px;
         color: #1D223E;
     }
+    &-add{
+      float: right;
+      display: inline-block;
+      margin-top: 4px;
+    }
     &-content{
-        margin-top: 15px;
-        height: 210px;
+        max-height: 200px;
         overflow: auto;
     }
     &-item{
@@ -196,6 +224,7 @@
         border: none;
         height: 26px;
         cursor: move;
+        margin-left: 10px;
     }
     &-hovBor{
       border-bottom: 2px solid #488FF9;
@@ -208,7 +237,7 @@
         overflow: hidden;
         white-space: nowrap;
         text-overflow:ellipsis;
-        width: 120px;
+        width: 110px;
         margin-left: 14px;
         font-size: 14px;
         color: #F4A022;
@@ -224,6 +253,11 @@
         cursor: pointer;
         color: #ffffff;
         opacity: 0;
+    }
+    &-moreIcon{
+      cursor: pointer;
+      color: #ffffff;
+      // opacity: 0;
     }
     &-ditem:hover{
         background-color:#F4A022;
@@ -242,12 +276,50 @@
       border: none;
       box-shadow: none;
     }
+    .db_detail_datadisplay-cspan:focus{
+      border: none;
+      box-shadow: none;
+    }
     &-mitem{
         background-color: #E0F7ED;
         width: 160px;
         border-radius: 13px;
         height: 26px;
         margin-bottom: 5px;
+        cursor: move;
+        margin-left: 10px;
+    }
+    &-citem{
+      background-color: #f7f8fa;
+        width: 160px;
+        border-radius: 13px;
+        height: 26px;
+        margin-bottom: 5px;
+        cursor: move;
+        margin-left: 10px;
+    }
+    &-citem:hover{
+      background-color: #b8cdf7;
+      .db_detail_datadisplay-icon{
+          opacity: 1;
+      }
+      .db_detail_datadisplay-cspan{
+          color: #ffffff;
+      }
+    }
+    &-cspan{
+      display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow:ellipsis;
+        width: 110px;
+        margin-left: 14px;
+        font-size: 14px;
+        color: #b8cdf7;
+        line-height: 26px;
+        height: 26px;
+        border: none;
+        background-color: rgba(255,255,255,0);
         cursor: move;
     }
     &-mspan{
@@ -286,28 +358,28 @@
     }
 }
   &_measures,&_screen{
-    padding: 15px 10px 20px 25px;
+    padding: 10px 10px 10px 10px;
     overflow: hidden;
     position: relative;
     &-name{
-        font-size: 16px;
+        font-size: 14px;
         color: #1D223E;
     }
     &-content{
-        margin-top: 15px;
+        // margin-top: 15px;
         overflow: auto;
         height: 100%;
         box-sizing: border-box;
     }
     &-contentWrap{
-      width: 160px;
+      width: 187px;
       border: 1px dashed #ccc;
       height: 100%;
       background: url('../../statics/images/empty.png') no-repeat center center;
       background-size: 160px 100px;
     }
     &-item{
-        font-size: 14px;
+        font-size: 12px;
         color: #262A30;
         line-height: 28px;
     }
@@ -333,10 +405,14 @@
     }
 }
   &_dragitem{
-    font-size: 14px;
+    font-size: 12px;
     color: #262A30;
-    line-height: 28px;
+    line-height: 24px;
+    height:24px;
     cursor: move;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     &-meaIden{
       color: #2DC888;
       font-size: 12px;
@@ -355,7 +431,12 @@
       white-space: nowrap;
       text-overflow: ellipsis;
     }
+    &-dropdown{
+      display: inline-block;
+      vertical-align: top;
+    }
   }
+
   &_filterItem{
     &-type{
       width: 140px;
@@ -385,9 +466,16 @@
 
 
 .db_detail_measures-content{
-  height: calc(100vh - 600px);
+  max-height: 300px;
+  min-height: 200px;
 }
 
 .db_detail_screen-content{
-  height: calc(100vh - 488px);
+  height: calc(100vh - 445px);
 }
+
+.borBottom{
+  border-bottom:1px solid  #EAECED;
+}
+
+

@@ -77,7 +77,6 @@ export default (props) => {
             fkId: props.projectId,
             bizType: 1
         }).then(res => {
-            console.log(res)
             if (res.success) {
                 setData({
                     ...data,

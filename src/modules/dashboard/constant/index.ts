@@ -9,6 +9,10 @@ export const FILTER_TYPE = [
     }
 ]
 
+export const SECOND_INPUT = [
+    'between',
+]
+
 export const FILTER_HIGHT_ITEM = [
     {
         label: '包含',
@@ -61,3 +65,22 @@ export const companyInfo = {
     footText:
         '@ jituancaiyun.com 浙ICP备13016135号 杭州讯盟科技有限公司 版权所有',
 }
+
+export const digitList = [
+    {
+        text:'%',
+        value: '%'
+    },
+    {
+        text:'一位',
+        value: '1'
+    },
+    {
+        text:'二位',
+        value: '2'
+    },
+    {
+        text:'三位',
+        value: '3'
+    }
+]

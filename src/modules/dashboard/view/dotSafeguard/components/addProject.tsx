@@ -42,7 +42,6 @@ export default (props) => {
             projectSave({
                 ...data
             }).then(res => {
-                console.log(res)
                 if (res.success) {
                     message.success('新建成功')
                     closeModal(true)
@@ -56,7 +55,6 @@ export default (props) => {
     useEffect(() => {
         getSelectProject()
         if (props.project.id) {
-            console.log(1)
             setData({
                 ...data,
                 name: props.project.projectName
@@ -90,9 +88,6 @@ export default (props) => {
                 <Form.Item label='项目名称'>
                     <Input placeholder='请输入' maxLength={20} value={data.name} onChange={e => setData({ ...data, name: e.target.value })} />
                 </Form.Item>
-                {
-                    console.log(data)
-                }
                 {
                     !props.project.id && <Form.Item>
                         <div className='db_dot_add-checkbox' >

@@ -10,10 +10,17 @@ module.exports = merge(common, {
     disableHostCheck: true,
     progress: true,
     stats: 'errors-only',
-    host: 'bix1.jituancaiyun.net',
+    host: '0.0.0.0',
     proxy: {
+      // '/': {
+      //   target: 'http://bix.jituancaiyun.net',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/': ''
+      //   }
+      // }
       '/': {
-        target: 'http://bix.jituancaiyun.net',
+        target: 'http://10.1.68.214:7799',
         changeOrigin: true,
         pathRewrite: {
           '^/': ''

@@ -27,7 +27,6 @@ export default () => {
     const [breadList, setBreadList] = useState([])
 
     useEffect(()=> {
-        console.log(project)
         if(!project){
             history.push('/dashboard/dotsafeguard')
         }else {
@@ -47,7 +46,6 @@ export default () => {
 
     const getList=(param)=> {
         moduleList({...param}).then(res=> {
-            console.log(res)
             if(res.success){
                 setList(res.data.rows)
                 setTotalCount(res.data.totalCount)
@@ -60,7 +58,6 @@ export default () => {
     }
 
     const changePages=(index,size)=> {
-        console.log(index,size)
         setPage({
             ...page,
             pageIndex:index,

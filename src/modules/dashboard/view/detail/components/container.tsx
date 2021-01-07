@@ -25,13 +25,14 @@ const Container: FunctionComponent<{ data: Element }> = ({
 
   const exportDataHandle = () => {
     let newData = deepCopy(data)
-    const {dimensions=[],measures=[],filters} = newData
+    
+    const {dimensions=[],measures=[],filters=[],calculateFields=[]} = newData
     const newDimensions = dimensions.map(item=> {
       let newItem = {...item, columnName: item.alias}
       delete newItem.alias
       return newItem
     })
-    const newMeasures = measures.map(item=> {
+    const newMeasures = measures.concat(calculateFields).map(item=> {
       let newItem = {...item, columnName: item.name}
       delete newItem.name
       return newItem
@@ -44,10 +45,9 @@ const Container: FunctionComponent<{ data: Element }> = ({
       dataSetId: newWorkBookInfo.dataSetId,
       fileName: data.name,
       chartType: 'grid',
-      filters: filters.map(item=> {
-        delete item.alias
-        return item
-      }),
+      dimensionFilters:filters.filter(item=>!item.function&&!item.expression),
+      measureFilters:filters.filter(item=>item.function),
+      calculateFieldFilters:filters.filter(item=>item.expression),
       columns:newList.map(item=> {
         delete item.sortId
         return item

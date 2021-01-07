@@ -34,7 +34,6 @@ export default (props) => {
             fkId:props.modularId,
             bizType: 2
         }).then(res => {
-            console.log(res)
             if (res.success) {
                 setData({
                     ...data,
@@ -103,7 +102,6 @@ export default (props) => {
     }
 
     const submit = () => {
-        console.log(data)
         if(!data.name){
             message.warning('请输入页面名称')
             return false

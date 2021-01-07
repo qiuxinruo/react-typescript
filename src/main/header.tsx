@@ -30,7 +30,6 @@ export default () => {
     }
     useEffect(()=> {
         provList({}).then(res=> {
-            console.log(res)
             if(res.success){
                 setList(res.data)
                 setEnv(Number(Cookies.get('env_choose')))

@@ -1,5 +1,6 @@
 .db_workbook{
     background-color: #F7F9FA;
+    height: 100%;
     &_index{
         &-header{
             padding: 25px 0px 24px 25px;
@@ -7,6 +8,7 @@
             font-weight: 500;
             color: #1D223E;
         }
+        min-width: 1000px;
     }
     &_table{
         margin: 25px 25px;
@@ -14,6 +16,8 @@
         background: #FFFFFF;
         box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.08);
         border-radius: 2px;
+        overflow: auto;
+        height: calc(100vh - 208px);
         &-watch{
             color: #488FF9;
             margin-right: 20px;

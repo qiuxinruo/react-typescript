@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Select, Input, Checkbox } from 'antd'
-import { FILTER_TYPE, FILTER_HIGHT_ITEM, INPUT_TEXT } from '@dashboard/constant'
+import { FILTER_TYPE, FILTER_HIGHT_ITEM, INPUT_TEXT,SECOND_INPUT } from '@dashboard/constant'
 import { useSelector } from 'react-redux'
 import { State } from '@dashboard/store'
-import { queryFieldValue } from '@dashboard/service'
+import { queryFieldValue,operatorList } from '@dashboard/service'
 import { deepCopy } from '@/common/utils'
 const { Option } = Select
 
@@ -16,28 +16,36 @@ export default (props) => {
     const [keyWord, setKeyWord] = useState('')
     const [firstValue,setFirstValue] = useState('')
     const [SecondValue,setSecondValue] = useState('')
+    const [operator,setOperator] = useState([])
 
     useEffect(()=> {
         if(item.operator){
-            if(item.operator=='='||item.operator=='in'){
-                setFilterType(1)
-            }else {
+            if(item.operator==='between'){
+                setFirstValue(item.value?JSON.parse(item.value)[0]:'')
+                setSecondValue(item.value?JSON.parse(item.value)[1]:'')
                 setFilterType(2)
-                if(item.operator=='%like%'){
-                    setFilterHight('containOperatorStrategy')
-                    setFirstValue(item.value)
-                }else {
-                    setFilterHight('betweenOperatorStrategy')
-                    setFirstValue(item.value?JSON.parse(item.value)[0]:'')
-                    setSecondValue(item.value?JSON.parse(item.value)[1]:'')
-                }
+                setFilterHight('between')
+            }else{
+                setFirstValue(item.value)
+                setFilterHight(item.operator)
+                setFilterType(2)
             }
+        }else {
+            setFilterType(1)
+            setFirstValue(item.value)
         }
         getFieldValue('')
+        getOperatorList()
     },[item])
 
     const changeFilterType = (e) => {
         setFilterType(e)
+    }
+
+    const getOperatorList=()=> {
+        operatorList({}).then(res=> {
+            setOperator(res.data)
+        })
     }
 
     const getFieldValue = (e) => {
@@ -70,7 +78,7 @@ export default (props) => {
     const changeFirstValue=(e)=> {
         setFirstValue(e)
         let newItem = deepCopy(item)
-        if(filterHightType=='betweenOperatorStrategy'){
+        if(filterHightType=='between'){
             newItem.value = JSON.stringify([e,SecondValue])
         }else {
             newItem.value = e
@@ -88,13 +96,8 @@ export default (props) => {
     const changeHightOperator=(e)=> {
         setFilterHight(e)
         const newItem = deepCopy(item)
-        if(e=='containOperatorStrategy'){
-            newItem.operator='%like%'
-            newItem.value = ''
-        }else {
-            newItem.operator='between',
-            newItem.value = ''
-        }
+        newItem.operator = e
+        newItem.value = ''
         updateItem(newItem)
     }
 
@@ -126,18 +129,18 @@ export default (props) => {
             {
                 filterType == '2' && <Select value={filterHightType} placeholder='请选择' className='db_detail_filterItem-type' onChange={e => changeHightOperator(e)}>
                     {
-                        FILTER_HIGHT_ITEM.map((item, index) => {
-                            return <Option key={index} value={item.value}>{item.label}</Option>
+                        operator.map((item, index) => {
+                            return <Option key={index} value={item.value}>{item.name}</Option>
                         })
                     }
                 </Select>
             }
             {
-                filterType == '2' && filterHightType
+                filterType == '2'
                 &&<Input value={firstValue} className='db_detail_filterItem-search' onChange={e=>changeFirstValue(e.target.value)} placeholder={INPUT_TEXT[filterHightType]} />
             }
             {
-                filterType == '2' &&  filterHightType == 'betweenOperatorStrategy' &&
+                filterType == '2' && SECOND_INPUT.indexOf(filterHightType)>-1 &&
                  <Input value={SecondValue} className='db_detail_filterItem-search' onChange={e=>changeSecondValue(e.target.value)} placeholder={INPUT_TEXT[filterHightType]} />
             }
         </div>

@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react'
 import { useDrop, useDrag } from 'react-dnd'
-import { CloseOutlined } from '@ant-design/icons'
-import { Input } from 'antd'
+import { CloseOutlined, MoreOutlined } from '@ant-design/icons'
+import { Input, Dropdown, Menu } from 'antd'
 import classnames from 'classnames'
 import { deepCopy } from '@/common/utils'
-
+import { digitList } from '@/modules/dashboard/constant'
 interface chilProps {
     onDrop: Function,
     list: any[],
@@ -14,8 +14,21 @@ interface chilProps {
 let hoverItem = null
 
 const DragItem = (props) => {
+    const { item, dataDisdel, itemIndex, moveCard, hoverIndex, setHoverItem, changeName, changeDigit } = props
+    const menu = (
+        <Menu>
+            {
+                digitList.map(item => {
+                    return <Menu.Item key={item.value} onClick={() => changeDigit(item.value, itemIndex)}>
+                        {item.text}
+                    </Menu.Item>
+                })
+            }
+        </Menu>
+
+    )
+
     const ref = useRef(null)
-    const { item, dataDisdel, itemIndex, moveCard, hoverIndex, setHoverItem, changeName } = props
     const [, drag] = useDrag({
         item: { type: 'card', index: itemIndex },
         //拖动结束标志线至空
@@ -46,16 +59,21 @@ const DragItem = (props) => {
     })
     drag(drop(ref))
     return <div ref={ref}
-        className={classnames(!item.function ? 'db_detail_datadisplay-ditem' : 'db_detail_datadisplay-mitem', hoverIndex == itemIndex ? 'db_detail_datadisplay-hovBor' : 'db_detail_datadisplay-nohovBor')}>
+        className={classnames(!item.function && !item.expression? 'db_detail_datadisplay-ditem' :item.expression? 'db_detail_datadisplay-citem':'db_detail_datadisplay-mitem', hoverIndex == itemIndex ? 'db_detail_datadisplay-hovBor' : 'db_detail_datadisplay-nohovBor')}>
         <Input
             onChange={e => changeName(e.target.value, itemIndex)}
-            className={!item.function ? 'db_detail_datadisplay-dspan' : 'db_detail_datadisplay-mspan'}
-            value={!item.function? item.alias : item.name}
+            className={!item.function&& !item.expression ? 'db_detail_datadisplay-dspan' : item.expression?'db_detail_datadisplay-cspan' :'db_detail_datadisplay-mspan'}
+            value={item.alias || item.name}
         />
         <CloseOutlined
             className='db_detail_datadisplay-icon'
             onClick={() => dataDisdel(itemIndex)}
         />
+        {
+            (item.fieldType === 'number' || item.expression) ? <Dropdown trigger={['click']} overlay={menu}>
+                <MoreOutlined className='db_detail_datadisplay-moreIcon' /> 
+            </Dropdown> : null
+        }
     </div>
 }
 
@@ -64,11 +82,18 @@ const DataDisplay: React.FC<chilProps> = (props) => {
     const [hoverIndex, setHoverItem] = useState(null)
     const changeName = (e, e1) => {
         let newList = deepCopy(list)
-        if (!newList[e1].function) {
+        if (!newList[e1].function&&!newList[e1].expression) {
             newList[e1].alias = e
         } else {
             newList[e1].name = e
         }
+        updateList(newList)
+    }
+
+    const changeDigit = (e, e1) => {
+        console.log(e, e1)
+        let newList = deepCopy(list)
+        newList[e1].format = e
         updateList(newList)
     }
 
@@ -90,9 +115,9 @@ const DataDisplay: React.FC<chilProps> = (props) => {
     const dataDisdel = (e) => { //删除数据展示列
         let lists = deepCopy(list)
         lists.splice(e, 1)
-        const newList = lists.map((item,index)=> {return {...item,sortId:index,columnName: 'column'+index}})
+        const newList = lists.map((item, index) => { return { ...item, sortId: index, columnName: 'column' + index } })
         updateList(newList)
-      }
+    }
 
     const [{ isOver, isOverCurrent }, drop] = useDrop({
         accept: 'drop',
@@ -118,6 +143,7 @@ const DataDisplay: React.FC<chilProps> = (props) => {
                             setHoverItem={(e) => setHoverItem(e)}
                             moveCard={(e: Object, e1: Number) => moveCard(e, e1)}
                             changeName={(e, e1) => changeName(e, e1)}
+                            changeDigit={(e, e1) => changeDigit(e, e1)}
                         />
                     })
                 }
