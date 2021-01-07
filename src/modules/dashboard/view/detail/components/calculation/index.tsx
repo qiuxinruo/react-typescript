@@ -108,6 +108,7 @@ export default (props) => {
         }
         if (!isLegitimate) return
         if (!name) { message.warning('请填写指标名称'); return }
+        if(!node.textContent){message.warning('请填写'); return}
         calculatedField({
             calculateId: countItem.calculateId ? countItem.calculateId : null,
             name: name,

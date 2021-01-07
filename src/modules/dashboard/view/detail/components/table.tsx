@@ -28,7 +28,7 @@ export default ({ data }: { data: Table }) => {
     let newWorkInfo = deepCopy(workBookInfo)
     getColums(newList)
     setLoading(true)
-    if (!dimensions.length && !measures.length) {
+    if (!dimensions.length && !measures.length && !calculateFields.length) {
       setLoading(false)
     } else {
       getReportData({
@@ -93,7 +93,7 @@ export default ({ data }: { data: Table }) => {
     <Conatainer data={data}>
       <AntTable loading={loading} columns={columns} dataSource={dataSource} rowKey={record => record.itemId} onChange={(pagination, filters, sorter) => handleTableChange(pagination, filters, sorter)} />
       {
-        showError && <div className='db_detail_container-textWrap'><span>报错信息：sql执行失败</span></div>
+        showError && <div className='db_detail_container-textWrap'><span>{text}</span></div>
       }
     </Conatainer>
   )
