@@ -10,7 +10,7 @@ export default (props) => {
             <span className='db_detail_count-add'>
                 <PlusOutlined onClick={()=>openAdd()}/>
             </span>
-            <div className='db_detail_count-content'>
+            <div className='db_detail_count-ccontent'>
                 {
                     list.map((item, index) => {
                         return <DragCountItem 
