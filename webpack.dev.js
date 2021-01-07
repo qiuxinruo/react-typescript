@@ -12,20 +12,20 @@ module.exports = merge(common, {
     stats: 'errors-only',
     host: '0.0.0.0',
     proxy: {
-      // '/': {
-      //   target: 'http://bix.jituancaiyun.net',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/': ''
-      //   }
-      // }
       '/': {
-        target: 'http://10.1.68.214:7799',
+        target: 'http://bix.jituancaiyun.net',
         changeOrigin: true,
         pathRewrite: {
           '^/': ''
         }
       }
+      // '/': {
+      //   target: 'http://10.1.68.214:7799',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/': ''
+      //   }
+      // }
     },
   },
   plugins: [new HardSourceWebpackPlugin()],
