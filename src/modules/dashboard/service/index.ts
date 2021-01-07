@@ -16,8 +16,8 @@ export function addElement(dashboard: Dashboard, type: Element['type']) {
   dashboard.layouts.push(laylout)
 }
 
-// let api = '/bi-gateway'
-let api = ''
+let api = '/bi-gateway'
+// let api = ''
 
 export function deleteElement(dashboard: Dashboard, id: string) {
   delete dashboard.elements[id]
