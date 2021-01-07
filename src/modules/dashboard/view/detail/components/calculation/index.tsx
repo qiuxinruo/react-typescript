@@ -91,7 +91,8 @@ export default (props) => {
 
     const getSubmitDataFormat = (field) => {
         const fieldItem = list.filter(item => item.field === field)[0]
-        return `{[${fieldItem.function ? 1 : 0}][${fieldItem.tableName}][${fieldItem.field}][${fieldItem.fieldType}]${fieldItem.function ? `[${fieldItem.function}]}` : ''}`
+        const fun = fieldItem.function?`[${fieldItem.function}]`:''
+        return `{[${fieldItem.function ?1 :0}][${fieldItem.tableName}][${fieldItem.field}][${fieldItem.fieldType}]${fun}}`
     }
 
     const submit = () => {
@@ -105,8 +106,8 @@ export default (props) => {
         }
         if (!isLegitimate) return
         if (!name) { message.warning('请填写指标名称'); return }
-
         calculatedField({
+            calculateId:countItem.calculateId?countItem.calculateId:null,
             name: name,
             expression: node.textContent,
             description: '',
