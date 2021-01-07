@@ -29,15 +29,19 @@ const Container: FunctionComponent<{ data: Element }> = ({
     const {dimensions=[],measures=[],filters=[],calculateFields=[]} = newData
     const newDimensions = dimensions.map(item=> {
       let newItem = {...item, columnName: item.alias}
-      delete newItem.alias
       return newItem
     })
     const newMeasures = measures.concat(calculateFields).map(item=> {
       let newItem = {...item, columnName: item.name}
-      delete newItem.name
       return newItem
     })
     const newList = newDimensions.concat(newMeasures).sort((a,b)=>{return a.sortId-b.sortId})
+    const submitList = newList.map(item=> {
+      return {
+        ...item,
+        type: !item.function && !item.expression ?  0 : item.function? 1: 2
+      }
+    })
     const newWorkBookInfo = deepCopy(workBookInfo)
     downloadFileByPost('/bi-gateway/das/report/export',{
       type: 'excel',
@@ -48,8 +52,7 @@ const Container: FunctionComponent<{ data: Element }> = ({
       dimensionFilters:filters.filter(item=>!item.function&&!item.expression),
       measureFilters:filters.filter(item=>item.function),
       calculateFieldFilters:filters.filter(item=>item.expression),
-      columns:newList.map(item=> {
-        delete item.sortId
+      columns:submitList.map(item=> {
         return item
       })
     },data.name+'.xlsx').then(res=> {
