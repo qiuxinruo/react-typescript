@@ -75,6 +75,8 @@ const Login = (props) => {
     }).then(res=> {
       if(res.success){
         queryAllEnvs()
+      }else{
+        message.error(res.msg)
       }
     })
   }
