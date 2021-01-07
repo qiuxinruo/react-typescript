@@ -15,6 +15,7 @@ export default (props) => {
     const [isLegitimate, setLegitimate] = useState(true)
     const [name, setName] = useState('')
     const [list, setList] = useState([])
+    const [showList,setShowList] = useState([])
 
     useEffect(() => {
         getNumField()
@@ -83,6 +84,7 @@ export default (props) => {
         const newMeasures = measures.filter(item => item.fieldType === 'number')
         const newDimensions = dimensions.filter(item => item.fieldType === 'number')
         setList(newList.concat(newMeasures.concat(newDimensions)))
+        setShowList(newList.concat(newMeasures.concat(newDimensions)))
     }
 
     const changeRange = (e) => {
@@ -91,8 +93,8 @@ export default (props) => {
 
     const getSubmitDataFormat = (field) => {
         const fieldItem = list.filter(item => item.field === field)[0]
-        const fun = fieldItem.function?`[${fieldItem.function}]`:''
-        return `{[${fieldItem.function ?1 :0}][${fieldItem.tableName}][${fieldItem.field}][${fieldItem.fieldType}]${fun}}`
+        const fun = fieldItem.function ? `[${fieldItem.function}]` : ''
+        return `{[${fieldItem.function ? 1 : 0}][${fieldItem.tableName}][${fieldItem.field}][${fieldItem.fieldType}]${fun}}`
     }
 
     const submit = () => {
@@ -107,7 +109,7 @@ export default (props) => {
         if (!isLegitimate) return
         if (!name) { message.warning('请填写指标名称'); return }
         calculatedField({
-            calculateId:countItem.calculateId?countItem.calculateId:null,
+            calculateId: countItem.calculateId ? countItem.calculateId : null,
             name: name,
             expression: node.textContent,
             description: '',
@@ -134,6 +136,18 @@ export default (props) => {
             setLegitimate(false)
 
         }
+    }
+
+    const changeSearch = (e) => {
+        const reg = new RegExp(e)
+        let items = []
+        for (var i = 0; i < list.length; i++) {
+            var temp = list[i].name || list[i].alias;
+            if (temp.match(reg)) {
+                items.push(list[i]);
+            }
+        }
+        setShowList(items)
     }
 
     const changeField = (e) => {
@@ -194,16 +208,16 @@ export default (props) => {
                 <div>指标名称<Input onChange={e => setName(e.target.value)} value={name} style={{ width: '300px', marginLeft: '20px' }} /></div>
                 <div className='db_detail_calculation-content'>
                     <div className='db_detail_calculation-left'>
-                        <Input placeholder="请输入" prefix={<ZoomInOutlined className='db_detail_calculation-searchIcon' />} />
+                        <Input placeholder="请输入" onChange={e => changeSearch(e.target.value)} prefix={<ZoomInOutlined className='db_detail_calculation-searchIcon'/>}  allowClear={true} />
                         <div>
                             {
                                 !isShow ? <CaretDownOutlined className='db_detail_calculation-filedIcon' /> :
                                     <CaretUpOutlined className='db_detail_calculation-filedIcon' />
-                            }数值字段（{list.length})
+                            }数值字段（{showList.length})
                         </div>
                         <div className='db_detail_calculation-contain'>
                             {
-                                list.map((item, index) => {
+                                showList.map((item, index) => {
                                     return <div onClick={() => changeField(item)} className='db_detail_calculation-item' key={index}>{item.name || item.alias}</div>
                                 })
                             }

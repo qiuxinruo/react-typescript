@@ -72,15 +72,19 @@ export const digitList = [
         value: '%'
     },
     {
-        text:'一位',
+        text:'保留小数点一位',
         value: '1'
     },
     {
-        text:'二位',
+        text:'保留小数点二位',
         value: '2'
     },
     {
-        text:'三位',
+        text:'保留小数点三位',
         value: '3'
+    },
+    {
+        text:'无',
+        value:''
     }
 ]
