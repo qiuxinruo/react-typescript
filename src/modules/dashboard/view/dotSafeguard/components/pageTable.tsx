@@ -30,11 +30,11 @@ export default (props) => {
             dataIndex: 'createTime',
             key: 'createTime'
         },
-        {
-            title: '模块编码',
-            dataIndex: 'moduleCode',
-            key: 'moduleCode'
-        },
+        // {
+        //     title: '模块编码',
+        //     dataIndex: 'moduleCode',
+        //     key: 'moduleCode'
+        // },
         {
             title: '页面编码',
             dataIndex: 'pageCode',
