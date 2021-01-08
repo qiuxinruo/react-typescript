@@ -94,7 +94,7 @@ export default (props) => {
 
     return <div className='db_dot_table'>
         <Button className='db_dot_table-btn' onClick={()=>{setShow(true);setPage({})}} type='primary'>新建页面</Button>
-        <AntTable columns={columns} dataSource={props.list} rowKey={record => record.pageId} pagination={Object.assign({}, PageDefault, {
+        <AntTable columns={columns} dataSource={props.list} rowKey={record => record.id} pagination={Object.assign({}, PageDefault, {
             onChange: (index, size) =>props.changePages(index, size),
             onShowSizeChange: (index, size) => props.changePages(index, size),
             current: page.pageIndex,

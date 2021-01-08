@@ -25,8 +25,17 @@ export default (props) => {
     }
 
     useEffect(()=> {
+        console.log(props)
         getProjectList()
-        getCode()
+        if(props.page.id){
+            setData({
+                ...props.page,
+                name:props.page.pageName,
+                code:props.page.numCode
+            })
+        }else{
+            getCode()
+        }
     },[])
 
     const getCode = () => {
@@ -119,7 +128,8 @@ export default (props) => {
                 name: data.name,
                 code: data.code
             }).then(res=> {
-
+                message.success('修改成功')
+                closeModal(true)
             })
         }else {
             pageSave({...data}).then(res=> {
