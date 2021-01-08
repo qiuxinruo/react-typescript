@@ -30,7 +30,7 @@ export default (props) => {
 
     const columns = [
         {
-            title: '项目',
+            title: '项目名称',
             dataIndex: 'projectName',
             key: 'projectName',
             render: (text, record) => {
