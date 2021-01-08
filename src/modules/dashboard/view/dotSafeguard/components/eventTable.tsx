@@ -34,6 +34,11 @@ export default (props) => {
             }
         },
         {
+            title: '事件编码',
+            dataIndex: 'eventCode',
+            key: 'eventCode'
+        },
+        {
             title: '创建时间',
             dataIndex: 'createTime',
             key: 'createTime'

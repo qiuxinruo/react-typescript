@@ -22,7 +22,7 @@ export default (props) => {
 
     const submit = () => {
         if (!data.eventDesc) {
-            message.warning('请填写项目名称')
+            message.warning('请填写时间描述')
             return false
         }
         if (!data.eventType) {
@@ -79,7 +79,17 @@ export default (props) => {
     }
 
     useEffect(() => {
-        getCode()
+        console.log(props)
+        if(props.event.id){
+            setData({
+                ...props.event,
+                name:props.event.eventDesc,
+                code:props.event.eventCode,
+                eventType:props.event.eventType
+            })
+        }else{
+            getCode()
+        }
     }, [])
 
     return <div className='db_dot_add'>
