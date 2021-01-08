@@ -81,8 +81,8 @@ export default (props) => {
 
     const getNumField = () => {
         let newList = []
-        const newMeasures = measures.filter(item => item.fieldType === 'number')
-        const newDimensions = dimensions.filter(item => item.fieldType === 'number')
+        const newMeasures = measures.filter(item => item.fieldType === 'number'||item.fieldType==='*')
+        const newDimensions = dimensions.filter(item => item.fieldType === 'number'||item.fieldType==='*')
         setList(newList.concat(newMeasures.concat(newDimensions)))
         setShowList(newList.concat(newMeasures.concat(newDimensions)))
     }

@@ -85,6 +85,10 @@ const Login = (props) => {
     provList({}).then(res=> {
       if(res.success){
         const { data } = res
+        dispatch({
+          type:'SET_ENVS',
+          payload: data
+        })
         const liDoms = data.map(item => (
           <li onClick={()=>handleSelectEnv(item.appType)} key={item.appType}>
             {item.name}

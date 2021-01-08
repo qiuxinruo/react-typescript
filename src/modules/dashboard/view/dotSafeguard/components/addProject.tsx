@@ -4,14 +4,17 @@ import { selectList, projectSave, projectEdit } from '@dashboard/service'
 import { useSelector } from 'react-redux'
 import { State } from '@dashboard/store'
 import  Cookies from 'js-cookie'
+import { deepCopy } from '@/common/utils'
 const { Option } = Select
 
 export default (props) => {
     const { closeModal, project } = props
+    const { envs } = useSelector((state: State) => state)
+    const [envsList,setEnvs] = useState(deepCopy(envs))
     const [data, setData] = useState({
         name: '',
         sync: false,
-        prov: Cookies.get('env_choose'),
+        prov: null,
         idList: []
     })
     const [form] = Form.useForm()
@@ -53,17 +56,28 @@ export default (props) => {
     }
 
     useEffect(() => {
-        getSelectProject()
+       console.log(props)
         if (props.project.id) {
             setData({
                 ...data,
                 name: props.project.projectName
             })
+            getSelectProject(props.project.prov)
         }
     }, [])
 
-    const getSelectProject = () => {
-        selectList({ prov: Cookies.get('env_choose') }).then(res => {
+    const changeEnv=(e)=> {
+        setData({
+            ...data,
+            prov:e,
+            idList:[]
+        })
+        console.log(e)
+        getSelectProject(e)
+    }
+
+    const getSelectProject = (e) => {
+        selectList({ prov: e}).then(res => {
             if (res.success) {
                 setList(res.data)
             }
@@ -76,7 +90,6 @@ export default (props) => {
             idList: [e]
         })
     }
-
     return <div className='db_dot_add'>
         <Modal
             visible={true}
@@ -96,7 +109,18 @@ export default (props) => {
                     </Form.Item>
                 }
                 {
-                    data.sync && <Form.Item label='项目模板'>
+                    data.sync && <Form.Item label='坏境'>
+                        <Select onChange={(e) => changeEnv(e)} placeholder='请选择' value={data.prov}>
+                            {
+                                envsList.map((item, index) => {
+                                    return <Option key={index} value={item.appType}>{item.name}</Option>
+                                })
+                            }
+                        </Select>
+                    </Form.Item>
+                }
+                {
+                    data.sync && data.prov && <Form.Item label='项目模板'>
                         <Select onChange={(e) => changeItem(e)} placeholder='请选择' value={data.idList.length ? data.idList[0] : undefined}>
                             {
                                 list.map((item, index) => {

@@ -10,7 +10,7 @@ import { message } from 'antd'
 import Cookies from 'js-cookie'
 
 export default () => {
-    const { project,modular } = useSelector((state: State) => state)
+    const { project,modular,envs } = useSelector((state: State) => state)
     const [page,setPage] = useState({
         pageIndex: 1,
         pageSize: 10,
