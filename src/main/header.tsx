@@ -32,6 +32,10 @@ export default () => {
         provList({}).then(res=> {
             if(res.success){
                 setList(res.data)
+                dispatch({
+                    type:'SET_ENVS',
+                    payload: res.data
+                  })
                 setEnv(Number(Cookies.get('env_choose')))
             }
         })

@@ -4,10 +4,13 @@ import { useSelector } from 'react-redux'
 import { State } from '@dashboard/store'
 import { selecModuletList, selectList, codeGen, moduleSave, moduleEdit, selectPageList } from '@dashboard/service'
 import Cookies from 'js-cookie'
+import { deepCopy } from '@/common/utils'
 const { Option } = Select
 
 export default (props) => {
-    const { } = useSelector((state: State) => state)
+    const { envs } = useSelector((state: State) => state)
+    const [envsList,setEnvs] = useState(deepCopy(envs))
+    const [prov,setProv] = useState(null)
     const { closeModal, module } = props
     const [data, setData] = useState({
         name: '',
@@ -62,7 +65,6 @@ export default (props) => {
 
     useEffect(() => {
         getList()
-        console.log(props)
         if (props.module.id) {
             setData({
                 ...data,
@@ -124,6 +126,10 @@ export default (props) => {
         })
     }
 
+    const changeProv=(e)=> {
+        setProv(e)
+    }
+
     return <div className='db_dot_add'>
         <Modal
             visible={true}
@@ -146,8 +152,19 @@ export default (props) => {
                         </div>
                     </Form.Item>
                 }
+                {/* {
+                    data.sync && <Form.Item label='坏境'>
+                        <Select onChange={e => changeProv(e)} placeholder='请选择' value={select.length ? select[0] : undefined}>
+                            {
+                                envsList.map((item, index) => {
+                                    return <Option key={index} value={item.appType} > {item.name}</Option>
+                                })
+                            }
+                        </Select>
+                    </Form.Item>
+                } */}
                 {
-                    data.sync && <Form.Item label='项目模板'>
+                    data.sync &&prov&& <Form.Item label='项目模板'>
                         <Select onChange={e => changeProjectItem(e)} placeholder='请选择' value={select.length ? select[0] : undefined}>
                             {
                                 projectList.map((item, index) => {
@@ -158,7 +175,7 @@ export default (props) => {
                     </Form.Item>
                 }
                 {
-                    select.length > 0 && data.sync && <Form.Item label='模块模板'>
+                    select.length > 0 && data.sync&&prov && <Form.Item label='模块模板'>
                         <Select onChange={e => changeItem(e)} placeholder='请选择' value={data.idList.length ? data.idList[0] : undefined}>
                             {
                                 list.map((item, index) => {
