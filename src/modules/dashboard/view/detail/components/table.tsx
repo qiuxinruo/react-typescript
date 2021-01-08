@@ -19,10 +19,9 @@ export default ({ data }: { data: Table }) => {
   useEffect(() => {
     getList(null)
   }, [data, workBookInfo])
-
   const getList = (param) => {
     let newData = deepCopy(data)
-    const { dimensions = [], measures = [], filters = [],calculateFields=[] } = newData
+    const { dimensions = [], measures = [], filters = [], calculateFields = [] } = newData
     const newList = dimensions.concat(measures).concat(calculateFields).sort((a, b) => { return a.sortId - b.sortId })
     const newFilters = filters.filter(item => item.operator && item.value)
     let newWorkInfo = deepCopy(workBookInfo)
@@ -30,25 +29,19 @@ export default ({ data }: { data: Table }) => {
     setLoading(true)
     if (!dimensions.length && !measures.length && !calculateFields.length) {
       setLoading(false)
+      setDataSource([])
+      setShowError(false)
     } else {
       getReportData({
         chartType: 'grid',
         dataSetId: newWorkInfo.dataSetId,
         orderInfo: param,
-        dimensions: dimensions.map(item => {
-          delete item.sortId
-          return item
-        }),
-        measures: measures.map(item => {
-          delete item.sortId
-          return item
-        }),
-        calculateFields: calculateFields.map(item=> {
-          return item
-        }),
-        dimensionFilters: newFilters.filter(item=>!item.function&&!item.expression),
-        measureFilters: newFilters.filter(item=>item.function),
-        calculateFieldFilters: newFilters.filter(item=>item.expression)
+        dimensions: dimensions,
+        measures: measures,
+        calculateFields: calculateFields,
+        dimensionFilters: newFilters.filter(item => !item.function && !item.expression),
+        measureFilters: newFilters.filter(item => item.function),
+        calculateFieldFilters: newFilters.filter(item => item.expression)
       }).then(res => {
         setLoading(false)
         if (res.success) {
@@ -80,7 +73,7 @@ export default ({ data }: { data: Table }) => {
   const getColums = (list) => {
     const newColumns = list.map(item => {
       return {
-        title: !item.function&&!item.expression ? item.alias : item.name,
+        title: !item.function && !item.expression ? item.alias : item.name,
         key: item.columnName,
         dataIndex: item.columnName,
         sorter: true,

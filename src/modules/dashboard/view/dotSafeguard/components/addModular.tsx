@@ -62,13 +62,15 @@ export default (props) => {
 
     useEffect(() => {
         getList()
-        if (!props.module.id) {
-            getCode()
+        console.log(props)
+        if (props.module.id) {
             setData({
                 ...data,
-                name: props.module.name,
-                code: props.module.code
+                name: props.module.moduleName,
+                code: props.module.moduleCode
             })
+        }else {
+            getCode()
         }
     }, [])
 
@@ -129,11 +131,12 @@ export default (props) => {
             onOk={() => submit()}
             onCancel={() => closeModal()}
         >
+            {console.log(data.name)}
             <Form {...layout}>
                 <Form.Item label='模块名称'>
                     <Input placeholder='请输入' value={data.name} onChange={e => { setData({ ...data, name: e.target.value }) }} maxLength={20} />
                 </Form.Item>
-                <Form.Item label='项目编码'>
+                <Form.Item label='模块编码'>
                     <Input placeholder='自动生成' value={data.code} disabled />
                 </Form.Item>
                 {

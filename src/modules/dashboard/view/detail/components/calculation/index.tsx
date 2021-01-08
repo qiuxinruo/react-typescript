@@ -211,10 +211,11 @@ export default (props) => {
                     <div className='db_detail_calculation-left'>
                         <Input placeholder="请输入" onChange={e => changeSearch(e.target.value)} prefix={<ZoomInOutlined className='db_detail_calculation-searchIcon'/>}  allowClear={true} />
                         <div>
-                            {
+                            {/* {
                                 !isShow ? <CaretDownOutlined className='db_detail_calculation-filedIcon' /> :
                                     <CaretUpOutlined className='db_detail_calculation-filedIcon' />
-                            }数值字段（{showList.length})
+                            } */}
+                            数值字段（{showList.length})
                         </div>
                         <div className='db_detail_calculation-contain'>
                             {
