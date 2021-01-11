@@ -3,10 +3,14 @@ import { Modal, Form, Input, Checkbox, message, Select } from 'antd'
 import { eventEdit, eventSave, codeGen, selectTypeList } from '@dashboard/service'
 import { useSelector } from 'react-redux'
 import { State } from '@dashboard/store'
+import { deepCopy } from '@/common/utils'
+
 const { Option } = Select
 
 export default (props) => {
-    const { } = useSelector((state: State) => state)
+    const { envs } = useSelector((state: State) => state)
+    const [envsList,setEnvs] = useState(deepCopy(envs))
+    const [prov,setProv] = useState(null)
     const { closeModal,typeList,event } = props
     const [data, setData] = useState({
         eventDesc: '',
@@ -22,7 +26,7 @@ export default (props) => {
 
     const submit = () => {
         if (!data.eventDesc) {
-            message.warning('请填写时间描述')
+            message.warning('请填写事件描述')
             return false
         }
         if (!data.eventType) {
@@ -79,7 +83,6 @@ export default (props) => {
     }
 
     useEffect(() => {
-        console.log(props)
         if(props.event.id){
             setData({
                 ...props.event,
@@ -107,10 +110,11 @@ export default (props) => {
                     <Input placeholder='自动生成' maxLength={20} value={data.eventCode} disabled />
                 </Form.Item>
                 <Form.Item label='事件类型'>
+                    {console.log(data.eventType)}
                     <Select onChange={e =>{setData({...data,eventType: e })}} placeholder='请选择' value={data.eventType}>
                         {
                             typeList.map((item, index) => {
-                                return <Option key={index} value={item.type} > {item.name}</Option>
+                                return <Option key={index} value={data.eventType} > {item.name}</Option>
                             })
                         }
                     </Select>

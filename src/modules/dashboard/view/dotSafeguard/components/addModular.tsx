@@ -161,7 +161,7 @@ export default (props) => {
                 }
                 {
                     data.sync && <Form.Item label='环境'>
-                        <Select onChange={e => changeProv(e)} placeholder='请选择' value={select.length ? select[0] : undefined}>
+                        <Select onChange={e => changeProv(e)} placeholder='请选择' value={prov|| undefined}>
                             {
                                 envsList.map((item, index) => {
                                     return <Option key={index} value={item.appType} > {item.name}</Option>
