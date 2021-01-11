@@ -13,6 +13,8 @@ export default (props) => {
     const [isShow, setShow] = useState(false)
     const [lastEditRange, setLastEditRange] = useState(null)
     const [isLegitimate, setLegitimate] = useState(true)
+    const [text,setText] = useState('')
+
     const [name, setName] = useState('')
     const [list, setList] = useState([])
     const [showList,setShowList] = useState([])
@@ -23,6 +25,7 @@ export default (props) => {
 
     useEffect(() => {
         if (countItem.name) {
+            setText('公式合法')
             setName(countItem.name)
             let arr = countItem.expression.split('}')
             let newlist = []
@@ -108,7 +111,7 @@ export default (props) => {
         }
         if (!isLegitimate) return
         if (!name) { message.warning('请填写指标名称'); return }
-        if(!node.textContent){message.warning('请填写'); return}
+        if(!node.textContent){message.warning('请填写公式'); return}
         calculatedField({
             calculateId: countItem.calculateId ? countItem.calculateId : null,
             name: name,
@@ -129,13 +132,18 @@ export default (props) => {
                 node.childNodes[i].innerHTML = '0'
             }
         }
-        try {
-            eval(node.textContent)
-            setLegitimate(true)
-        }
-        catch (err) {
-            setLegitimate(false)
-
+        if(!node.textContent){
+            setText('')
+        }else{
+            try {
+                eval(node.textContent)
+                setLegitimate(true)
+                setText('公式合法')
+            }
+            catch (err) {
+                setLegitimate(false)
+                setText('公式不合法')
+            }
         }
     }
 
@@ -226,7 +234,7 @@ export default (props) => {
                         </div>
                     </div>
                     <div className='db_detail_calculation-right'>
-                        <Edit changeValue={e => getCheckDom()} changeRange={e => changeRange(e)} lastEditRange={lastEditRange} isLegitimate={isLegitimate} />
+                        <Edit changeValue={e => getCheckDom()} changeRange={e => changeRange(e)} lastEditRange={lastEditRange} isLegitimate={isLegitimate} text={text} />
                     </div>
                 </div>
             </div>

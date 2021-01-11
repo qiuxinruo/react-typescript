@@ -7,7 +7,7 @@ import { OPERATOR } from '@dashboard/constant'
 
 export default (props) => {
     const dateRef = useRef()
-    const { changeValue, value, changeRange, lastEditRange,isLegitimate } = props
+    const { changeValue, value, changeRange, lastEditRange,isLegitimate,text } = props
     let el = document.getElementById('edit')
 
     const changeSymbol = (e) => {
@@ -91,7 +91,7 @@ export default (props) => {
         <div className='db_detail_operator-editWrap' >
             <div id='edit' onInput={(e)=>changeEdit(e)} onKeyDown={(e)=>onKeyDownKey(e)} onKeyUp={() => getRange()} className='db_detail_operator-editContent' onClick={() => getRange()} contentEditable='true'>
             </div>
-            <div className={isLegitimate?'db_detail_operator-des':'db_detail_operator-noDes'}>{isLegitimate?'公式合法':'公式不合法'}</div>
+            <div className={isLegitimate?'db_detail_operator-des':'db_detail_operator-noDes'}>{text}</div>
         </div>
     </div>
 }

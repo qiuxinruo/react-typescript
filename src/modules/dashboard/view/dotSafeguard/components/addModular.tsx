@@ -128,6 +128,13 @@ export default (props) => {
 
     const changeProv=(e)=> {
         setProv(e)
+        setData({
+            ...data,
+            idList: []
+        })
+        setList([])
+        setSelect([])
+        
     }
 
     return <div className='db_dot_add'>
@@ -152,8 +159,8 @@ export default (props) => {
                         </div>
                     </Form.Item>
                 }
-                {/* {
-                    data.sync && <Form.Item label='坏境'>
+                {
+                    data.sync && <Form.Item label='环境'>
                         <Select onChange={e => changeProv(e)} placeholder='请选择' value={select.length ? select[0] : undefined}>
                             {
                                 envsList.map((item, index) => {
@@ -162,7 +169,7 @@ export default (props) => {
                             }
                         </Select>
                     </Form.Item>
-                } */}
+                }
                 {
                     data.sync &&prov&& <Form.Item label='项目模板'>
                         <Select onChange={e => changeProjectItem(e)} placeholder='请选择' value={select.length ? select[0] : undefined}>
