@@ -11,10 +11,11 @@ export default (props) => {
     const { closeModal, project } = props
     const { envs } = useSelector((state: State) => state)
     const [envsList,setEnvs] = useState(deepCopy(envs))
+    const [envSelect, setEnvSelect] = useState(null)
     const [data, setData] = useState({
         name: '',
         sync: false,
-        prov: null,
+        prov: Cookies.get('env_choose'),
         idList: []
     })
     const [form] = Form.useForm()
@@ -62,17 +63,16 @@ export default (props) => {
                 ...data,
                 name: props.project.projectName
             })
-            getSelectProject(props.project.prov)
+            // getSelectProject(props.project.prov)
         }
     }, [])
 
     const changeEnv=(e)=> {
         setData({
             ...data,
-            prov:e,
             idList:[]
         })
-        console.log(e)
+        setEnvSelect(e)
         getSelectProject(e)
     }
 
@@ -109,8 +109,8 @@ export default (props) => {
                     </Form.Item>
                 }
                 {
-                    data.sync && <Form.Item label='坏境'>
-                        <Select onChange={(e) => changeEnv(e)} placeholder='请选择' value={data.prov}>
+                    data.sync && <Form.Item label='环境'>
+                        <Select onChange={(e) => changeEnv(e)} placeholder='请选择' value={envSelect}>
                             {
                                 envsList.map((item, index) => {
                                     return <Option key={index} value={item.appType}>{item.name}</Option>
@@ -120,7 +120,7 @@ export default (props) => {
                     </Form.Item>
                 }
                 {
-                    data.sync && data.prov && <Form.Item label='项目模板'>
+                    data.sync && envSelect && <Form.Item label='项目模板'>
                         <Select onChange={(e) => changeItem(e)} placeholder='请选择' value={data.idList.length ? data.idList[0] : undefined}>
                             {
                                 list.map((item, index) => {
