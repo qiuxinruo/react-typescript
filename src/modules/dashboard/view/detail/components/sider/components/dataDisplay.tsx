@@ -131,7 +131,7 @@ const DataDisplay: React.FC<chilProps> = (props) => {
     return (
         <div className='db_detail_datadisplay'>
             <span className='db_detail_datadisplay-name'>数据展示</span>
-            <div className='db_detail_datadisplay-wrap' ref={drop}>
+            <div className={list.length>0?'db_detail_datadisplay-wrap1' :'db_detail_datadisplay-wrap'} ref={drop}>
                 {
                     list.map((item, index) => {
                         return <DragItem

@@ -39,7 +39,7 @@ const Screen: React.FC<chilProps> = (props) => {
         <div ref={drop} className='db_detail_screen'>
             <span className='db_detail_screen-name'>筛选器</span>
             <div className='db_detail_screen-content'>
-                <div className='db_detail_screen-contentWrap'>
+                <div className={list.length>0 ? 'db_detail_screen-contentWrap1' : 'db_detail_screen-contentWrap'} >
                     {
                         list.map((item, index) => {
                             return <div key={index} className='db_detail_screen-screenItem'>
