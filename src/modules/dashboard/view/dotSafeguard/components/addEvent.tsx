@@ -111,10 +111,10 @@ export default (props) => {
                 </Form.Item>
                 <Form.Item label='事件类型'>
                     {console.log(data.eventType)}
-                    <Select onChange={e =>{setData({...data,eventType: e })}} placeholder='请选择' value={data.eventType}>
+                    <Select onChange={e =>{setData({...data,eventType: e })}} placeholder='请选择' value={Number(data.eventType)}>
                         {
                             typeList.map((item, index) => {
-                                return <Option key={index} value={data.eventType} > {item.name}</Option>
+                                return <Option key={index} value={item.type} > {item.name}</Option>
                             })
                         }
                     </Select>
