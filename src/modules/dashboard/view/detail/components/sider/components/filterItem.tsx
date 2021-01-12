@@ -13,12 +13,12 @@ export default (props) => {
     const [filterType, setFilterType] = useState(undefined)
     const [filterHightType, setFilterHight] = useState(undefined)
     const [dataList, setDataList] = useState([])
-    const [keyWord, setKeyWord] = useState('')
     const [firstValue,setFirstValue] = useState('')
     const [SecondValue,setSecondValue] = useState('')
     const [operator,setOperator] = useState([])
 
     useEffect(()=> {
+        console.log(item,'item')
         if(item.operator){
             if(item.operator==='between'){
                 setFirstValue(item.value?JSON.parse(item.value)[0]:'')
@@ -36,10 +36,17 @@ export default (props) => {
         }
         getFieldValue('')
         getOperatorList()
-    },[item])
+    },[])
 
     const changeFilterType = (e) => {
         setFilterType(e)
+        setFirstValue('')
+        setSecondValue('')
+        updateItem({
+            ...item,
+            value:'',
+            operator:''
+        })
     }
 
     const getOperatorList=()=> {
@@ -64,14 +71,12 @@ export default (props) => {
     }
 
     const getQueryList=(e)=> {
-        setKeyWord(e)
         getFieldValue(e)
     }
 
     const changeValue=(e)=> {
-        const newItem = deepCopy(item) 
+        const newItem = deepCopy(item)
         newItem.value = JSON.stringify(e)
-        newItem.operator = e.length?'in':''
         updateItem(newItem)
     }
 
