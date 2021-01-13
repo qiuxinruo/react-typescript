@@ -3,6 +3,7 @@ import { Modal, Form, Input, Select, message } from 'antd'
 import { useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import Loading from '@dashboard/components/loading'
+import { getBaseUrl } from '@/common/utils'
 const { Option } = Select
 
 import { queryCubeList, saveWorkbook } from '@dashboard/service'
@@ -97,7 +98,7 @@ const AddBook = (props) => {
                 }else {
                     const workBookId = res.data.workBookId
                     const dataSetId = res.data.dataSetId
-                    window.open(`/#/dashboard/detail/${workBookId}/${dataSetId}`)
+                    window.open(`${getBaseUrl()}dashboard/detail/${workBookId}/${dataSetId}`)
                 }
             }else{
                 message.error(res.message)

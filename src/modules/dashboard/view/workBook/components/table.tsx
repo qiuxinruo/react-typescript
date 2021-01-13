@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-
+import { getBaseUrl } from '@/common/utils'
 import { Table as AntTable, Button, Modal, message, Tooltip } from 'antd'
 
 import AddBook from './addBook'
@@ -49,7 +49,8 @@ const TableRender: React.FC<childProps> = (props) => {
     }
 
     const handleRowClick=(e)=> {
-        window.open(`/#/dashboard/detail/${e.workBookId}/${e.dataSetId}`)
+        console.log(getBaseUrl())
+        window.open(`${getBaseUrl()}dashboard/detail/${e.workBookId}/${e.dataSetId}`)
     }
 
     const columns = [
