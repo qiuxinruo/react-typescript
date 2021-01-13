@@ -49,8 +49,8 @@ const TableRender: React.FC<childProps> = (props) => {
     }
 
     const handleRowClick=(e)=> {
-        console.log(getBaseUrl())
-        window.open(`http://bix.jituancaiyun.net/dashboard/#/dashboard/detail/${e.workBookId}/${e.dataSetId}`)
+        console.log(window.location.origin+window.location.pathname)
+        window.open(`${window.location.origin+window.location.pathname}/#/dashboard/detail/${e.workBookId}`)
     }
 
     const columns = [
