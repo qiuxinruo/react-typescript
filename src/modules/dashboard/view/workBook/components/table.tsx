@@ -50,7 +50,7 @@ const TableRender: React.FC<childProps> = (props) => {
 
     const handleRowClick=(e)=> {
         console.log(getBaseUrl())
-        window.open(`${getBaseUrl()}dashboard/detail/${e.workBookId}/${e.dataSetId}`)
+        window.open(`http://bix.jituancaiyun.net/dashboard/#/dashboard/detail/${e.workBookId}/${e.dataSetId}`)
     }
 
     const columns = [

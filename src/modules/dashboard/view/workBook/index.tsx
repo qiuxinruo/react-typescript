@@ -46,7 +46,7 @@ export default () => {
             <div className='db_workbook_search'>
                 <Search handleSearch={(e) => setKeyWord(e)} placeholderText="搜索工作簿" />
             </div>
-            <Select value={type} style={{ width: 120 }} onChange={e=>changeType(e)}>
+            <Select value={type} style={{ width: 160 }} onChange={e=>changeType(e)}>
                 {
                     CREAT_TYPE.map(item => {
                         return <Option value={item.value}>{item.text}</Option>
