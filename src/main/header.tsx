@@ -6,10 +6,14 @@ import { useHistory } from 'react-router-dom'
 import { useSelector,useDispatch } from 'react-redux'
 import { State } from '@dashboard/store'
 import { provList } from '@dashboard/service'
+import { deepCopy } from '@/common/utils'
 
 const { SubMenu } = Menu
 const { Option } = Select
-export default () => {
+export default (props) => {
+    const { workBookInfo } = useSelector((state: State) => state)
+    console.log(props)
+    console.log(workBookInfo,'workBookInfo')
     const [list,setList] = useState([])
     const [env,setEnv] = useState(null)
     const dispatch = useDispatch()
@@ -42,7 +46,7 @@ export default () => {
     },[])
     return (
         <div className='db_header'>
-            SHINEMO BI
+            {deepCopy(workBookInfo)&&deepCopy(workBookInfo).name?deepCopy(workBookInfo).name : 'SHINEMO BI'}
             <div className='db_header_info'>
                 <Select
                     style={{
