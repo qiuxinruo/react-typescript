@@ -39,6 +39,8 @@ export function deepCopy(obj, cache = []) {
 }
 
 export function getBaseUrl() {
+  console.log(location.origin)
+  console.log(location.pathname)
   return location.origin + location.pathname + '#/'
 }
 

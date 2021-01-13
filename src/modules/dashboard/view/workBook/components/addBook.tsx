@@ -98,7 +98,7 @@ const AddBook = (props) => {
                 }else {
                     const workBookId = res.data.workBookId
                     const dataSetId = res.data.dataSetId
-                    window.open(`${getBaseUrl()}dashboard/detail/${workBookId}/${dataSetId}`)
+                    window.open(`http://bix.jituancaiyun.net/dashboard/#/dashboard/detail/${workBookId}/${dataSetId}`)
                 }
             }else{
                 message.error(res.message)
