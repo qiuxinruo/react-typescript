@@ -18,13 +18,16 @@ export default (props) => {
     const [operator,setOperator] = useState([])
 
     useEffect(()=> {
-        console.log(item,'item')
         if(item.operator){
             if(item.operator==='between'){
                 setFirstValue(item.value?JSON.parse(item.value)[0]:'')
                 setSecondValue(item.value?JSON.parse(item.value)[1]:'')
                 setFilterType(2)
                 setFilterHight('between')
+            }else if(item.operator==='in'){
+                setFilterType(1)
+                setFirstValue(item.value)
+                setFilterHight(item.operator)
             }else{
                 setFirstValue(item.value)
                 setFilterHight(item.operator)
@@ -45,7 +48,7 @@ export default (props) => {
         updateItem({
             ...item,
             value:'',
-            operator:''
+            operator:e===1?'in': ''
         })
     }
 
