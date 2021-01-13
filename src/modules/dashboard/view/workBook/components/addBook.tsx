@@ -91,9 +91,14 @@ const AddBook = (props) => {
         saveWorkbook(param).then(res => {
             setLoading(false)
             if (res.success) {
-                closeModal()
-                const workBookId = res.data.workBookId
-                props.history.push(`/dashboard/detail/${workBookId}`)
+                closeModal(true)
+                if(itemData.workBookId){
+                    message.success('修改成功')
+                }else {
+                    const workBookId = res.data.workBookId
+                    const dataSetId = res.data.dataSetId
+                    window.open(`/#/dashboard/detail/${workBookId}/${dataSetId}`)
+                }
             }else{
                 message.error(res.message)
             }
@@ -104,7 +109,7 @@ const AddBook = (props) => {
         <Modal
             visible={true}
             title= {itemData.name ? '编辑工作簿' : '新建工作簿'}
-            okText='下一步'
+            okText={itemData.workBookId?'完成':'下一步'}
             onCancel={() => closeModal()}
             onOk={() => submit()}
         >

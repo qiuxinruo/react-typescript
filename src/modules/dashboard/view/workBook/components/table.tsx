@@ -8,11 +8,12 @@ import AddBook from './addBook'
 import { deleteBook } from '@dashboard/service'
 
 interface childProps {
-    updataList: Function,
-    data: any
+    updateList: Function,
+    data: any,
+
 }
 const TableRender: React.FC<childProps> = (props) => {
-    const { updataList } = props
+    const { updateList } = props
     const [showAddBook, setAddBook] = useState(false)
     const [itemData, setItemData] = useState({})
 
@@ -30,7 +31,7 @@ const TableRender: React.FC<childProps> = (props) => {
             onOk: () => {
                 deleteBook({ workBookId: record.workBookId }).then(res => {
                     if (res.success) {
-                        updataList()
+                        updateList()
                         message.success('删除成功')
                     } else {
                         message.warning(res.message)
@@ -40,8 +41,15 @@ const TableRender: React.FC<childProps> = (props) => {
         })
     }
 
-    const closeModal = () => {
+    const closeModal = (e) => {
         setAddBook(false)
+        if (e) {
+            updateList()
+        }
+    }
+
+    const handleRowClick=(e)=> {
+        window.open(`/#/dashboard/detail/${e.workBookId}/${e.dataSetId}`)
     }
 
     const columns = [
@@ -76,16 +84,16 @@ const TableRender: React.FC<childProps> = (props) => {
             render: (text, record) => {
                 return <span>
                     {
-                        record.isEdit ? <span className='db_workbook_table-edit' onClick={(e) => editDashBord(record,e)}>
-                        编辑
-                    </span>: <Tooltip title={record.currentUserName+'正在编辑'}><span className='db_workbook_table-noEdit'>
-                        编辑
+                        record.isEdit ? <span className='db_workbook_table-edit' onClick={(e) => editDashBord(record, e)}>
+                            编辑
+                    </span> : <Tooltip title={record.currentUserName + '正在编辑'}><span className='db_workbook_table-noEdit'>
+                                编辑
                     </span></Tooltip>
                     }
                     {
                         record.isEdit ? <span onClick={(e) => delDashBord(record, e)} className='db_workbook_table-del'>删除
-                    </span> : <Tooltip title={record.currentUserName+'正在编辑'}><span className='db_workbook_table-noDel'>
-                        删除
+                    </span> : <Tooltip title={record.currentUserName + '正在编辑'}><span className='db_workbook_table-noDel'>
+                                删除
                     </span></Tooltip>
                     }
                 </span>
@@ -100,9 +108,14 @@ const TableRender: React.FC<childProps> = (props) => {
                 columns={columns}
                 dataSource={props.data}
                 rowKey={record => record.workBookId}
+                onChange={e => { console.log(e) }}
+                onRow={(record) => ({
+                    onClick: ()=>handleRowClick(record),
+                    style:{cursor:'pointer'} // 点击行
+                })}
             />
             {
-                showAddBook && <AddBook itemData={itemData} closeModal={() => closeModal()} />
+                showAddBook && <AddBook itemData={itemData} closeModal={(e) => closeModal(e)} />
             }
         </div>
     )

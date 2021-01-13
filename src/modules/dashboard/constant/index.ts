@@ -88,3 +88,14 @@ export const digitList = [
         value:''
     }
 ]
+
+export const CREAT_TYPE=[
+    {
+        text:'我发布的',
+        value: 1
+    },
+    {
+        text:'所有人发布',
+        value: 0
+    }
+]

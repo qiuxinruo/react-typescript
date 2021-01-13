@@ -1,7 +1,7 @@
 import React from 'react'
 import { Input } from 'antd'
 const { Search } = Input
-
+import '../index.less'
 interface chilProps{
     handleSearch:Function
 }
@@ -16,7 +16,7 @@ const SearchRender:React.FC <chilProps>= (props) => {
     }
 
     return (
-        <div>
+        <div id='1' style={{display:'inline-block',verticalAlign:'top'}}>
             <Search
                 placeholder="请输入工作簿名称"
                 enterButton="搜索"
