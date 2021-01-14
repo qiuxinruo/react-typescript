@@ -72,6 +72,18 @@ export const digitList = [
         value: '%'
     },
     {
+        text:'%后一位小数',
+        value: '%,1'
+    },
+    {
+        text:'%后二位小数',
+        value: '%,2'
+    },
+    {
+        text:'%后三位小数',
+        value: '%,3'
+    },
+    {
         text:'保留小数点一位',
         value: '1'
     },

@@ -71,6 +71,10 @@ export default (props) => {
         const { data } = res
         const newLayouts = data.layouts ? JSON.parse(data.layouts) : []
         const newElements = data.elements ? JSON.parse(data.elements) : {}
+        let list = []
+        for(let i in newElements){
+          list.push(i)
+        }
         dispatch({
           type: 'INIT_STATE',
           payload: {
@@ -78,6 +82,10 @@ export default (props) => {
             elements: newElements,
             name: data.name
           }
+        })
+        dispatch({
+          type: 'SELECT_ELEMENT',
+          payload: list.length?list[0]:'',
         })
       }
     })

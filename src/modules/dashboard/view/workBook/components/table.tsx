@@ -50,7 +50,7 @@ const TableRender: React.FC<childProps> = (props) => {
 
     const handleRowClick=(e)=> {
         if(e.isEdit){
-            window.open(`${window.location.origin + window.location.pathname}/#/dashboard/detail/${e.workBookId}`)
+            window.open(`${window.location.origin + window.location.pathname}#/dashboard/detail/${e.workBookId}`)
         }
         else{
             message.info(`${e.currentUserName}正在编辑`)
