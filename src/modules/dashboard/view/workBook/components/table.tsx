@@ -49,8 +49,12 @@ const TableRender: React.FC<childProps> = (props) => {
     }
 
     const handleRowClick=(e)=> {
-        console.log(window.location.origin+window.location.pathname)
-        window.open(`${window.location.origin+window.location.pathname}/#/dashboard/detail/${e.workBookId}`)
+        if(e.isEdit){
+            window.open(`${window.location.origin + window.location.pathname}/#/dashboard/detail/${e.workBookId}`)
+        }
+        else{
+            message.info(`${e.currentUserName}正在编辑`)
+        }
     }
 
     const columns = [
@@ -85,11 +89,9 @@ const TableRender: React.FC<childProps> = (props) => {
             render: (text, record) => {
                 return <span>
                     {
-                        record.isEdit ? <span className='db_workbook_table-edit' onClick={(e) => editDashBord(record, e)}>
+                        <span className='db_workbook_table-edit' onClick={(e) => editDashBord(record, e)}>
                             编辑
-                    </span> : <Tooltip title={record.currentUserName + '正在编辑'}><span className='db_workbook_table-noEdit'>
-                                编辑
-                    </span></Tooltip>
+                    </span> 
                     }
                     {
                         record.isEdit ? <span onClick={(e) => delDashBord(record, e)} className='db_workbook_table-del'>删除
