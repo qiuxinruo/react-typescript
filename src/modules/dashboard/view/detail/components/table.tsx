@@ -21,17 +21,19 @@ export default ({ data }: { data: Table }) => {
   }, [data, workBookInfo])
   const getList = (param) => {
     let newData = deepCopy(data)
+    console.log(newData)
     const { dimensions = [], measures = [], filters = [], calculateFields = [] } = newData
     const newList = dimensions.concat(measures).concat(calculateFields).sort((a, b) => { return a.sortId - b.sortId })
     const newFilters = filters.filter(item => item.operator && item.value)
     let newWorkInfo = deepCopy(workBookInfo)
     getColums(newList)
-    setLoading(true)
+    setLoading(true) 
     if (!dimensions.length && !measures.length && !calculateFields.length) {
       setLoading(false)
       setDataSource([])
       setShowError(false)
     } else {
+      console.log(newFilters)
       getReportData({
         chartType: 'grid',
         dataSetId: newWorkInfo.dataSetId,

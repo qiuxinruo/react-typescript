@@ -106,13 +106,12 @@ export default () => {
         message.warning('请勿重复添加')
       }
     } else {
-      // if (e1.data.function) {
-      //   message.warning('度量不允许拖到筛选器区域')
-      //   return false
-      // }
       const isTrue = getSame(e1.data, scrList)
       if (!isTrue) {
+        
         let list = [e1.data]
+        list[0].operator = 'in'
+        list[0].value = ''
         const newList = deepCopy(scrList).concat(list)
         setScrList(newList)
         saveReportHandle(dataDisList, newList)

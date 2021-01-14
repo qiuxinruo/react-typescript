@@ -78,8 +78,9 @@ export default (props) => {
     }
 
     const changeValue=(e)=> {
+        console.log(e)
         const newItem = deepCopy(item)
-        newItem.value = JSON.stringify(e)
+        newItem.value = !e.length?'':JSON.stringify(e)
         updateItem(newItem)
     }
 
