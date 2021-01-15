@@ -36,6 +36,7 @@ const Container: FunctionComponent<{ data: Element }> = ({
       return newItem
     })
     const newList = newDimensions.concat(newMeasures).sort((a,b)=>{return a.sortId-b.sortId})
+    const newFilters = filters.filter(item=>item.operator && item.value)
     const submitList = newList.map(item=> {
       return {
         ...item,
@@ -49,9 +50,9 @@ const Container: FunctionComponent<{ data: Element }> = ({
       dataSetId: newWorkBookInfo.dataSetId,
       fileName: data.name,
       chartType: 'grid',
-      dimensionFilters:filters.filter(item=>!item.function&&!item.expression),
-      measureFilters:filters.filter(item=>item.function),
-      calculateFieldFilters:filters.filter(item=>item.expression),
+      dimensionFilters:newFilters.filter(item=>!item.function&&!item.expression),
+      measureFilters:newFilters.filter(item=>item.function),
+      calculateFieldFilters:newFilters.filter(item=>item.expression),
       columns:submitList.map(item=> {
         return item
       })

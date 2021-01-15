@@ -240,27 +240,6 @@ export default (props) => {
 
   return (
     <header className="db_detail_header">
-      {/* <div className="db_detail_header-main"> */}
-        {/* <div>
-          <LeftOutlined onClick={() => {
-            history.push('/dashboard/workbook')
-            dispatch({
-              type: 'INIT_STATE',
-              payload: {
-                layouts: [],
-                elements: {},
-                name: ''
-              }
-            })
-          }} />
-          <span className="db_detail_header-title">{workBookInfo?deepCopy(workBookInfo).name : ''}</span>
-        </div> */}
-        {/* <div>
-          <Button type="primary" shape="round">
-            分享
-          </Button>
-        </div> */}
-      {/* </div> */}
       <Tabs size="small"
         type="editable-card"
         onChange={key => changeTab(key)}

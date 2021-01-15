@@ -67,8 +67,21 @@ export default (props) => {
             fieldType: item.fieldType,
             keyWord: e
         }).then(res => {
+            console.log(props.item.value,'props')
+            console.log(res)
             if (res.success) {
-                setDataList(res.data)
+                if(item.operator==='in'&&item.value){
+                    let list = JSON.parse(item.value)
+                    for(let i=0;i<res.data.length;i++){
+                        if(list.indexOf(res.data)>-1){
+                            list.push(res.data[i])
+                        }
+                    }
+                    console.log(list)
+                    setDataList(list)
+                }else {
+                    setDataList(res.data)
+                }
             }
         })
     }
