@@ -92,7 +92,7 @@ export default () => {
         if(dataItem.fieldType==='number'||dataItem.expression){
           dataItem.format = ''
         }
-        let list = [{ ...dataItem }].concat(dataDisList)
+        let list = dataDisList.concat([{ ...dataItem }])
         const newList = list.map((item, index) => {
           return {
             ...item,

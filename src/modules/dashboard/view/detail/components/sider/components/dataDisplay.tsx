@@ -59,10 +59,10 @@ const DragItem = (props) => {
     })
     drag(drop(ref))
     return <div ref={ref}
-        className={classnames(!item.function && !item.expression? 'db_detail_datadisplay-ditem' :item.expression? 'db_detail_datadisplay-citem':'db_detail_datadisplay-mitem', hoverIndex == itemIndex ? 'db_detail_datadisplay-hovBor' : 'db_detail_datadisplay-nohovBor')}>
+        className={classnames(!item.function && !item.expression ? 'db_detail_datadisplay-ditem' : item.expression ? 'db_detail_datadisplay-citem' : 'db_detail_datadisplay-mitem', hoverIndex == itemIndex ? 'db_detail_datadisplay-hovBor' : 'db_detail_datadisplay-nohovBor')}>
         <Input
             onChange={e => changeName(e.target.value, itemIndex)}
-            className={!item.function&& !item.expression ? 'db_detail_datadisplay-dspan' : item.expression?'db_detail_datadisplay-cspan' :'db_detail_datadisplay-mspan'}
+            className={!item.function && !item.expression ? 'db_detail_datadisplay-dspan' : item.expression ? 'db_detail_datadisplay-cspan' : 'db_detail_datadisplay-mspan'}
             value={item.alias || item.name}
         />
         <CloseOutlined
@@ -70,9 +70,10 @@ const DragItem = (props) => {
             onClick={() => dataDisdel(itemIndex)}
         />
         {
-            (item.fieldType === 'number' || item.expression) ? <Dropdown trigger={['click']} overlay={menu}>
-                <MoreOutlined className='db_detail_datadisplay-moreIcon' /> 
-            </Dropdown> : null
+            (item.fieldType === 'number' || item.expression) ?
+                <Dropdown trigger={['click']} overlay={menu}>
+                    <MoreOutlined className='db_detail_datadisplay-moreIcon' />
+                </Dropdown> : null
         }
     </div>
 }
@@ -82,7 +83,7 @@ const DataDisplay: React.FC<chilProps> = (props) => {
     const [hoverIndex, setHoverItem] = useState(null)
     const changeName = (e, e1) => {
         let newList = deepCopy(list)
-        if (!newList[e1].function&&!newList[e1].expression) {
+        if (!newList[e1].function && !newList[e1].expression) {
             newList[e1].alias = e
         } else {
             newList[e1].name = e
@@ -131,7 +132,7 @@ const DataDisplay: React.FC<chilProps> = (props) => {
     return (
         <div className='db_detail_datadisplay'>
             <span className='db_detail_datadisplay-name'>数据展示</span>
-            <div className={list.length>0?'db_detail_datadisplay-wrap1' :'db_detail_datadisplay-wrap'} ref={drop}>
+            <div className={list.length > 0 ? 'db_detail_datadisplay-wrap1' : 'db_detail_datadisplay-wrap'} ref={drop}>
                 {
                     list.map((item, index) => {
                         return <DragItem
