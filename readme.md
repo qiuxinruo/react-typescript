@@ -1,10 +1,7 @@
 ## 架构
 
-- main 入口文件，复杂装载 module 和全局注册
+- index.tsx 入口文件
 - common 业务逻辑无关的公共事物
-- modules 域模块，该项目共两个域：
-  - dashboard(核心域) 数据看板模块
-  - auth(支撑域) 鉴权模块
 
 ## 技术方案
 

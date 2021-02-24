@@ -6,7 +6,6 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@dashboard/*": ["./src/modules/dashboard/*"]
     }
   },
   "include": ["src/**/*","./images.d.ts"],

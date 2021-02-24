@@ -2,12 +2,11 @@ const resolve = require('path').resolve
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-  entry: './src/main/index.tsx',
+  entry: './src/index.tsx',
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
     alias: {
       '@': resolve('./src'),
-      '@dashboard': resolve('./src/modules/dashboard'),
     },
   },
   module: {
